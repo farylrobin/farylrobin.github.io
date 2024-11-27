@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Include Oswald and Raleway fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Variables */
+    :root {
+      --T1: 40px; /* Text size for Title */
+      --T2: 15px; /* Text size for All Other Text (increased for better readability) */
+      --R: 5vh;    /* Row spacing */
+      --accent-color: #00C9D8;
+      --overlay-bg: rgba(0, 201, 216, 0.95);
+      --handle-bg: rgba(0, 201, 216, 0.8);
+      --engagement-label-color: #ffffff; /* White color for engagement labels */
+      --outline-stroke-color: #ccc; /* Darker outline for "SOCIAL TRENDS" */
+    }
+
+    /* Reset and Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      padding: var(--R); /* 2*R padding */
+    }
+
+    /* Header Styles */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center; /* Center vertically */
+      width: 100%;
+      height: 6vh; /* Changed from 60px to 6vh for consistency */
+    }
+
+    .title-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .title {
+      font-family: 'Oswald', sans-serif;
+      font-size: var(--T1); /* Fixed size */
+      font-weight: 700;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap; /* Prevent wrapping */
+      overflow: hidden;
+      text-overflow: ellipsis; /* Add ellipsis if text is too long */
+    }
+
+    .outline-text {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--outline-stroke-color); /* Darker outline */
+    }
+
+    .solid-text {
+      color: #000;
+    }
+
+    /* Key Takeaways Button */
+    .right-panel-toggle {
+      background-color: var(--accent-color);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 20;
+      transition: opacity 0.3s;
+      font-family: 'Oswald', sans-serif; /* Consistent font */
+      text-transform: uppercase; /* Make text all caps */
+      white-space: nowrap; /* Prevent wrapping */
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    /* Spacing Below Header */
+    .spacer {
+      height: var(--R); /* R spacing */
+    }
+
+    /* Content Block */
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 6vh - var(--R)); /* Fill remaining space */
+      gap: var(--R); /* R spacing between rows */
+    }
+
+    /* Each Row */
+    .row {
+      display: flex;
+      flex: 1; /* Each row takes equal space */
+      gap: var(--R); /* R spacing between cards */
+    }
+
+    /* Video Cards */
+    .video-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      background: #ffffff;
+      flex: 1; /* Flex to fill row height */
+      display: flex;
+      flex-direction: column;
+      /* Removed aspect-ratio to prevent height overflow */
+      /* aspect-ratio: 9 / 16; */ 
+      /* Removed max-width to allow cards to adjust based on available space */
+      /* max-width: calc(0.5625 * 100%); */ 
+    }
+
+    .video-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 201, 216, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .video-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      object-fit: cover; /* Ensures the video covers the entire area without distortion */
+    }
+
+    .rank-and-handle {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 10;
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    .rank {
+      background: var(--accent-color);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-family: 'Oswald', sans-serif; /* Consistent font */
+      text-transform: uppercase; /* Make text all caps */
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    .handle {
+      background: var(--handle-bg);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 16px;
+      font-size: var(--T2); /* Set to T2 size */
+      white-space: nowrap;
+      font-family: 'Oswald', sans-serif; /* Ensure handle uses Oswald font */
+      text-transform: uppercase; /* Make handle all caps */
+    }
+
+    /* Hover Metrics */
+    .metrics {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 201, 216, 0.9);
+      color: white;
+      padding: 15px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    .video-card:hover .metrics {
+      opacity: 1;
+    }
+
+    .metric {
+      margin: 5px 0;
+      font-family: 'Raleway', sans-serif; /* Change label font to Raleway */
+      color: #ffffff; /* White color for labels */
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    /* Specific styling for Engagement Rate label */
+    .metric.engagement-rate {
+      font-family: 'Raleway', sans-serif; /* Raleway font */
+      color: #ffffff; /* White color */
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    /* New styles for data points */
+    .data-point {
+      font-family: 'Oswald', sans-serif; /* Use Oswald font */
+      text-transform: uppercase; /* Make text all caps */
+      color: #000; /* Set text color to black */
+      margin-left: 4px; /* Space between label and data */
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    .engagement-rate .data-point {
+      color: #000; /* Ensure data points are black */
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    /* Key Takeaways Panel Styles */
+    .right-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--overlay-bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 30;
+    }
+
+    .right-panel.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .right-panel-content {
+      background: #fff;
+      color: #000;
+      border-radius: 12px;
+      padding: 24px;
+      width: 80%;
+      max-width: 500px;
+      position: relative;
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    .right-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    .right-panel-title {
+      font-size: var(--T2); /* Set to T2 size */
+      font-weight: bold;
+      font-family: 'Oswald', sans-serif; /* Consistent font */
+      text-transform: uppercase; /* Make text all caps */
+    }
+
+    .close-button {
+      cursor: pointer;
+      font-size: var(--T2); /* Set to T2 size */
+      color: #666;
+      font-family: 'Oswald', sans-serif; /* Consistent font */
+    }
+
+    .key-takeaways,
+    .trend-data {
+      background-color: #f0f0f0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      font-family: 'Raleway', sans-serif; /* Raleway font for content */
+      text-transform: uppercase; /* Make text all caps */
+      color: #000; /* Black color for content */
+      font-size: var(--T2); /* Set to T2 size */
+    }
+
+    .key-takeaways-title,
+    .trend-data-title {
+      font-size: var(--T2); /* Set to T2 size */
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .key-takeaways-content,
+    .trend-data-content {
+      font-size: var(--T2); /* Set to T2 size */
+      color: #666;
+      text-transform: none; /* Keep content in normal case */
+      font-family: 'Raleway', sans-serif; /* Raleway font for content */
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .content-container {
+        flex-direction: column;
+        gap: var(--R);
+      }
+
+      .row {
+        flex-direction: row;
+        gap: var(--R);
+      }
+
+      .video-card {
+        max-width: none; /* Allow cards to adjust in mobile */
+        /* aspect-ratio: 9 / 16; */ /* Removed aspect ratio for consistency */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Outer Frame with 2*R Padding -->
+
+  <!-- Header Section -->
+  <div class="header">
+    <div class="title-container">
+      <h1 class="title">
+        <span class="outline-text">SOCIAL TRENDS</span>
+        <span class="solid-text">FALL BOOTS</span>
+      </h1>
+    </div>
+    <div class="right-panel-toggle">Key Takeaways</div>
+  </div>
+
+  <!-- Spacing Below Header -->
+  <div class="spacer"></div>
+
+  <!-- Content Block -->
+  <div class="content-container">
+    <!-- Row 1 -->
+    <div class="row">
+      <!-- Video Card 1 -->
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <div class="rank-and-handle">
+            <div class="rank">#1</div>
+            <div class="handle">@USER1</div>
+          </div>
+          <iframe class="video-iframe" src="https://www.tiktok.com/embed/7414191869766192417" allowfullscreen title="Video 1" loading="lazy"></iframe>
+          <div class="metrics">
+            <div class="metric">Likes: <span class="data-point">7.6K</span></div>
+            <div class="metric">Comments: <span class="data-point">287</span></div>
+            <div class="metric">Shares: <span class="data-point">92</span></div>
+            <div class="metric">Views: <span class="data-point">498K</span></div>
+            <div class="metric engagement-rate">Engagement Rate: <span class="data-point">7.16%</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Video Card 2 -->
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <div class="rank-and-handle">
+            <div class="rank">#2</div>
+            <div class="handle">@USER2</div>
+          </div>
+          <iframe class="video-iframe" src="https://www.tiktok.com/embed/7424206480045378859" allowfullscreen title="Video 2" loading="lazy"></iframe>
+          <div class="metrics">
+            <div class="metric">Likes: <span class="data-point">14.1K</span></div>
+            <div class="metric">Comments: <span class="data-point">682</span></div>
+            <div class="metric">Shares: <span class="data-point">189</span></div>
+            <div class="metric">Views: <span class="data-point">875K</span></div>
+            <div class="metric engagement-rate">Engagement Rate: <span class="data-point">8.92%</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Video Card 3 -->
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <div class="rank-and-handle">
+            <div class="rank">#3</div>
+            <div class="handle">@USER3</div>
+          </div>
+          <iframe class="video-iframe" src="https://www.tiktok.com/embed/7415768279211396398" allowfullscreen title="Video 3" loading="lazy"></iframe>
+          <div class="metrics">
+            <div class="metric">Likes: <span class="data-point">9.8K</span></div>
+            <div class="metric">Comments: <span class="data-point">412</span></div>
+            <div class="metric">Shares: <span class="data-point">134</span></div>
+            <div class="metric">Views: <span class="data-point">631K</span></div>
+            <div class="metric engagement-rate">Engagement Rate: <span class="data-point">8.76%</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Video Card 4 -->
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <div class="rank-and-handle">
+            <div class="rank">#4</div>
+            <div class="handle">@USER4</div>
+          </div>
+          <iframe class="video-iframe" src="https://www.tiktok.com/embed/7414191869766192417" allowfullscreen title="Video 4" loading="lazy"></iframe>
+          <div class="metrics">
+            <div class="metric">Likes: <span class="data-point">7.6K</span></div>
+            <div class="metric">Comments: <span class="data-point">287</span></div>
+            <div class="metric">Shares: <span class="data-point">92</span></div>
+            <div class="metric">Views: <span class="data-point">498K</span></div>
+            <div class="metric engagement-rate">Engagement Rate: <span class="data-point">7.16%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="row">
+      <!-- Video Card 5 -->
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <div class="rank-and-handle">
+            <div class="rank">#5</div>
+            <div class="handle">@USER5</div>
+          </div>
+          <iframe class="video-iframe" src="https://www.tiktok.com/embed/7426161653047135530" allowfullscreen title="Video 5" loading="lazy"></iframe>
+          <div class="metrics">
+            <div class="metric">Likes: <span class="data-point">12.2K</span></div>
+            <div class="metric">Comments: <span class="data-point">546</span></div>
+            <div class="metric">Shares: <span class="data-point">171</span></div>
+            <div class="metric">Views: <span class="data-point">725K</span></div>
+            <div class="metric engagement-rate">Engagement Rate: <span class="data-point">4.40%</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Video Card 6 -->
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <div class="rank-and-handle">
+            <div class="rank">#6</div>
+            <div class="handle">@USER6</div>
+          </div>
+          <iframe class="video-iframe" src="https://www.tiktok.com/embed/7435842321100360991" allowfullscreen title="Video 6" loading="lazy"></iframe>
+          <div class="metrics">
+            <div class="metric">Likes: <span class="data-point">6.9K</span></div>
+            <div class="metric">Comments: <span class="data-point">203</span></div>
+            <div class="metric">Shares: <span class="data-point">78</span></div>
+            <div class="metric">Views: <span class="data-point">412K</span></div>
+            <div class="metric engagement-rate">Engagement Rate: <span class="data-point">3.23%</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Video Card 7 -->
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <div class="rank-and-handle">
+            <div class="rank">#7</div>
+            <div class="handle">@USER7</div>
+          </div>
+          <iframe class="video-iframe" src="https://www.tiktok.com/embed/7437657769613872414" allowfullscreen title="Video 7" loading="lazy"></iframe>
+          <div class="metrics">
+            <div class="metric">Likes: <span class="data-point">8.4K</span></div>
+            <div class="metric">Comments: <span class="data-point">291</span></div>
+            <div class="metric">Shares: <span class="data-point">112</span></div>
+            <div class="metric">Views: <span class="data-point">556K</span></div>
+            <div class="metric engagement-rate">Engagement Rate: <span class="data-point">2.69%</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Video Card 8 -->
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <div class="rank-and-handle">
+            <div class="rank">#8</div>
+            <div class="handle">@USER8</div>
+          </div>
+          <iframe class="video-iframe" src="https://www.tiktok.com/embed/7428337696281513246" allowfullscreen title="Video 8" loading="lazy"></iframe>
+          <div class="metrics">
+            <div class="metric">Likes: <span class="data-point">5.3K</span></div>
+            <div class="metric">Comments: <span class="data-point">154</span></div>
+            <div class="metric">Shares: <span class="data-point">61</span></div>
+            <div class="metric">Views: <span class="data-point">332K</span></div>
+            <div class="metric engagement-rate">Engagement Rate: <span class="data-point">0.98%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Takeaways Panel -->
+  <div class="right-panel">
+    <div class="right-panel-content">
+      <div class="right-panel-header">
+        <div class="right-panel-title">Key Takeaways</div>
+        <div class="close-button">&times;</div>
+      </div>
+      <div class="key-takeaways">
+        <div class="key-takeaways-title">Slingback Flat Trend</div>
+        <div class="key-takeaways-content">
+          Continued support through spring is backed by Trendalytics data, but market saturation suggests scaling back for fall.
+        </div>
+      </div>
+      <div class="trend-data">
+        <div class="trend-data-title">Trend Scorecard</div>
+        <div class="trend-data-content">
+          <p>Slowing Growth: High</p>
+          <p>Seasonal: Yes</p>
+          <p>Engagement Rating: Strong</p>
+          <p>Discount Level: Low</p>
+          <p>Most Saturated: Specialty/DTC</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for Key Takeaways Panel -->
+  <script>
+    const rightPanelToggle = document.querySelector('.right-panel-toggle');
+    const rightPanel = document.querySelector('.right-panel');
+    const closeButton = document.querySelector('.close-button');
+
+    // Function to show the panel
+    const showPanel = () => {
+      rightPanel.classList.add('active');
+    };
+
+    // Function to hide the panel
+    const hidePanel = () => {
+      rightPanel.classList.remove('active');
+    };
+
+    // Show panel when clicking the toggle button
+    rightPanelToggle.addEventListener('click', showPanel);
+
+    // Hide panel when clicking the close button
+    closeButton.addEventListener('click', hidePanel);
+  </script>
+</body>
+</html>

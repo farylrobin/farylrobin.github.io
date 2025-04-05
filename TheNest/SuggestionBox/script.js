@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.textContent = 'Submitting...';
         
         try {
-            // Prepare data for Google Sheets
+            // Prepare data for submission
             const timestamp = new Date().toISOString();
             const formData = {
                 timestamp: timestamp,
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 solution: solution
             };
             
-            // Send data to Google Sheets
-            const result = await submitToGoogleSheets(formData);
+            // Send data to n8n workflow
+            const result = await submitToN8nWorkflow(formData);
             
             if (result.success) {
                 // Show success message
@@ -72,13 +72,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /**
-     * Submit form data to Google Sheets
+     * Submit form data to n8n workflow
      * @param {Object} data - The form data to submit
      * @returns {Object} - Result of the submission
      */
-    async function submitToGoogleSheets(data) {
-        // This will be replaced with actual Google Sheets Web App URL in the next step
-        const scriptURL = 'GOOGLE_SCRIPT_URL_PLACEHOLDER';
+    async function submitToN8nWorkflow(data) {
+        // Replace this with your actual n8n webhook URL
+        const n8nWebhookURL = 'https://farylrobin.app.n8n.cloud/webhook/32d3cf8f-9bcf-4ac5-a6b2-c8f44afb7910';
         
         try {
             // Create form data for submission
@@ -87,13 +87,12 @@ document.addEventListener('DOMContentLoaded', function() {
             formDataToSend.append('challenge', data.challenge);
             formDataToSend.append('solution', data.solution);
             
-            // Send data to Google Sheets Web App
-            const response = await fetch(scriptURL, {
+            // Send data to n8n webhook
+            const response = await fetch(n8nWebhookURL, {
                 method: 'POST',
                 body: formDataToSend
             });
             
-            // Check if response is ok
             if (response.ok) {
                 return { success: true };
             } else {
@@ -101,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return { success: false, error: `Server error: ${response.status}` };
             }
         } catch (error) {
-            console.error('Error submitting to Google Sheets:', error);
+            console.error('Error submitting to n8n workflow:', error);
             return { success: false, error: error.message };
         }
     }
@@ -115,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         statusMessage.textContent = message;
         statusMessage.className = type; // Apply the appropriate CSS class
         
-        // Add the appropriate class based on message type
+        // Adjust CSS classes based on message type
         if (type === 'success') {
             statusMessage.classList.add('success');
             statusMessage.classList.remove('error', 'hidden');

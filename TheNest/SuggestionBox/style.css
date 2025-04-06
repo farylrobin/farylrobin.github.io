@@ -17,6 +17,23 @@ body {
     padding: 20px;
 }
 
+/* Header Styles */
+header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.1em;
+    color: #555;
+}
+
 /* Form Styles */
 form {
     background-color: white;
@@ -112,11 +129,11 @@ footer {
     .container {
         padding: 10px;
     }
-    
+
     form {
         padding: 20px;
     }
-    
+
     button {
         width: 100%;
     }

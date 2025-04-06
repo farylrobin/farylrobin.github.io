@@ -31,11 +31,11 @@ body {
 /* Header Styles */
 header {
     margin-bottom: 30px;
-    text-align: center;
+    text-align: left;
 }
 
 header h1 {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: 600;
     margin-bottom: 10px;
 }

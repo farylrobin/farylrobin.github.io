@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anonymous Suggestion Box</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Suggestion Box</h1>
+            <p>An anonymous space to offer up potential solutions to the challenges you see that others might not.</p>
+        </header>
+
+        <main>
+            <form id="suggestionForm">
+                <div class="form-group">
+                    <label for="challenge">Challenge:</label>
+                    <textarea id="challenge" name="challenge" rows="5" placeholder="Describe the challenge or issue you've identified..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="solution">Proposed Solution:</label>
+                    <textarea id="solution" name="solution" rows="5" placeholder="Share your ideas for addressing this challenge..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" id="submitBtn">Submit Suggestion</button>
+                </div>
+            </form>
+
+            <div id="statusMessage" class="hidden"></div>
+        </main>
+
+        <footer>
+            <p>All submissions are completely anonymous. No identifying information is collected.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

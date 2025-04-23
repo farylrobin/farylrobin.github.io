@@ -6,6 +6,6 @@ export default defineConfig({
 
   plugins: [react()],
   build: {
-    outDir: 'docs/TheNestSrc/AnalyticsHub/Amazon/FileUploads'
+    outDir: 'dist'
   },
 });

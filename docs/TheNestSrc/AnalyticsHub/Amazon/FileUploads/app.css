@@ -146,7 +146,9 @@ body {
 /* --- Iframe Wrapper --- */
 .uploader-iframe-wrapper {
   width: 100%;            /* fill parent horizontally */
-  /* optional: set a fixed or relative height, or use aspect-ratio */
+  max-width: 1200px;      /* limit maximum width */
+  margin: 2rem auto;      /* vertical space + center horizontally */
+  box-sizing: border-box; /* include padding/border in size */
   height: 600px;          /* adjust as needed */
   overflow: hidden;
 }
@@ -155,5 +157,5 @@ body {
   width: 100%;
   height: 100%;
   border: none;
-  display: block;         /* removes any inline spacing */
+  display: block;
 }

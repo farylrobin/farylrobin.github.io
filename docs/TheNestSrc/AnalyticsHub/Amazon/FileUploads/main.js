@@ -125,17 +125,19 @@ submitButton.addEventListener("click", async () => {
   formData.append("submissionTime", new Date().toISOString());
 
   /* add files + metadata */
+  // All files use the single field name "files" so n8n can capture them under item.binary.filesX
   const fileMetadata = [];
   Object.entries(filesByDropzone).forEach(([identifier, files]) => {
     files.forEach((file, idx) => {
-      const key = `${identifier}_${idx}`;
+      const key = 'files';
       formData.append(key, file, file.name);
       fileMetadata.push({
         formDataKey: key,
         originalName: file.name,
         size: file.size,
         type: file.type,
-        dropzoneIdentifier: identifier
+        dropzoneIdentifier: identifier,
+        index: idx
       });
     });
   });

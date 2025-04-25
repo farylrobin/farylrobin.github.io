@@ -131,6 +131,8 @@ submitButton.addEventListener("click", async () => {
     files.forEach((file, idx) => {
       const key = 'files';
       formData.append(key, file, file.name);
+      // Attach the dropzone identifier as a JSON attribute for each file
+      formData.append('dropzoneIdentifier', identifier);
       fileMetadata.push({
         formDataKey: key,
         originalName: file.name,

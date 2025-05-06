@@ -2,8 +2,6 @@
 const DROPZONE_IDENTIFIERS = [
   "Inventory",
   "Sales",
-  "On-Order",
-  "Returns",
   "Forecasting",
   "Reviews"
 ];

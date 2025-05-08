@@ -11,6 +11,7 @@ document.body.addEventListener('click', e => {
     promptEl.className = 'drop-zone__prompt';
     promptEl.textContent = 'Drop file or click';
     dz.appendChild(promptEl);
+    resetSubmitBtn();
   }
 });
 
@@ -67,6 +68,11 @@ function updateThumbnail(dz,file){
 // -------- dynamic rows --------
 const tableBody=document.querySelector('#promptTable tbody');
 const addRowBtn=document.getElementById('addRowBtn');
+const submitBtn = document.getElementById('submitBtn');
+function resetSubmitBtn() {
+  submitBtn.classList.remove('submitting');
+  submitBtn.disabled = false;
+}
 
 addRowBtn.onclick=()=>addRow();
 
@@ -91,10 +97,16 @@ function addRow(){
   tableBody.appendChild(clone);
   initDropZones(clone);
   reindex();
+  // Clear previous status when a new row is added
+  document.getElementById('result').textContent = '';
+  resetSubmitBtn();
 }
 function reindex(){
   document.querySelectorAll('.rowIdx').forEach((td,i)=>td.textContent=i+1);
 }
+// Reset button when any field changes
+document.getElementById('promptTable').addEventListener('input', resetSubmitBtn);
+document.getElementById('promptTable').addEventListener('change', resetSubmitBtn);
 
 function initDropZones(scope){
   scope.querySelectorAll('.drop-zone__input').forEach(inputElement=>{
@@ -122,6 +134,8 @@ function initDropZones(scope){
 // -------- submit --------
 document.getElementById('promptForm').addEventListener('submit', async e => {
   e.preventDefault();
+  submitBtn.classList.add('submitting');
+  submitBtn.disabled = true;
   const rows = document.querySelectorAll('#promptTable tbody tr');
   const fd = new FormData();
   rows.forEach((tr, i) => {
@@ -129,12 +143,10 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
     const img2 = tr.querySelector('input[name="img2"]').files[0];
     const weight = tr.querySelector('input[name="weight"]').value || '0.5';
     const prompt = tr.querySelector('textarea[name="prompt"]').value;
-    const multigen = tr.querySelector('input[name="multigen"]').checked;
     if (img1) fd.append(`rows[${i}][img1]`, img1);
     if (img2) fd.append(`rows[${i}][img2]`, img2);
     fd.append(`rows[${i}][weight]`, weight);
     fd.append(`rows[${i}][prompt]`, prompt);
-    fd.append(`rows[${i}][multigen]`, multigen);
   });
 
   try {
@@ -144,12 +156,13 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
     });
     if (res.ok) {
       const timestamp = new Date().toLocaleString();
-      document.getElementById('result').textContent = `Generation Request Sent [${timestamp}]`;
+      document.getElementById('result').textContent = `Workflow has started [${timestamp}]`;
     } else {
       const errorText = await res.text();
       document.getElementById('result').textContent = `Failed To Send: ${res.status} ${res.statusText} - ${errorText}`;
     }
   } catch (err) {
     document.getElementById('result').textContent = `Failed To Send: ${err}`;
+    // keep button disabled until user edits the table
   }
 });

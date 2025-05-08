@@ -58,6 +58,17 @@ button{
 button:hover {
   background-color: var(--myrtille-3);
 }
+/* submitted state */
+button.submitting {
+  background-color: var(--myrtille-2);
+  color: var(--myrtille-7);
+  border: 2px solid var(--myrtille-4);
+  cursor: progress;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 button:active {
   background-color: var(--white);
   color: var(--myrtille-4);

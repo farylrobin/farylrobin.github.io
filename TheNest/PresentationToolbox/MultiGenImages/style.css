@@ -58,6 +58,11 @@ button{
 button:hover {
   background-color: var(--myrtille-3);
 }
+button:active {
+  background-color: var(--white);
+  color: var(--myrtille-4);
+  border: 2px solid var(--myrtille-4);
+}
 .drop-zone{
   position:relative;
   min-height:60px;

@@ -120,28 +120,36 @@ function initDropZones(scope){
 }
 
 // -------- submit --------
-document.getElementById('promptForm').addEventListener('submit',async e=>{
+document.getElementById('promptForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const rows=document.querySelectorAll('#promptTable tbody tr');
-  const fd=new FormData();
-  rows.forEach((tr,i)=>{
-    const img1=tr.querySelector('input[name="img1"]').files[0];
-    const img2=tr.querySelector('input[name="img2"]').files[0];
-    const weight=tr.querySelector('input[name="weight"]').value||'0.5';
-    const prompt=tr.querySelector('textarea[name="prompt"]').value;
-    const multigen=tr.querySelector('input[name="multigen"]').checked;
-    if(img1) fd.append(`rows[${i}][img1]`,img1);
-    if(img2) fd.append(`rows[${i}][img2]`,img2);
-    fd.append(`rows[${i}][weight]`,weight);
-    fd.append(`rows[${i}][prompt]`,prompt);
-    fd.append(`rows[${i}][multigen]`,multigen);
+  const rows = document.querySelectorAll('#promptTable tbody tr');
+  const fd = new FormData();
+  rows.forEach((tr, i) => {
+    const img1 = tr.querySelector('input[name="img1"]').files[0];
+    const img2 = tr.querySelector('input[name="img2"]').files[0];
+    const weight = tr.querySelector('input[name="weight"]').value || '0.5';
+    const prompt = tr.querySelector('textarea[name="prompt"]').value;
+    const multigen = tr.querySelector('input[name="multigen"]').checked;
+    if (img1) fd.append(`rows[${i}][img1]`, img1);
+    if (img2) fd.append(`rows[${i}][img2]`, img2);
+    fd.append(`rows[${i}][weight]`, weight);
+    fd.append(`rows[${i}][prompt]`, prompt);
+    fd.append(`rows[${i}][multigen]`, multigen);
   });
 
-  try{
-    const res=await fetch('https://farylrobin.app.n8n.cloud/webhook/eef6e5ec-5eee-4e6c-96d5-88155999ee98',{method:'POST',body:fd});
-    const data=await res.json();
-    document.getElementById('result').textContent=JSON.stringify(data,null,2);
-  }catch(err){
-    document.getElementById('result').textContent='Error: '+err;
+  try {
+    const res = await fetch('https://farylrobin.app.n8n.cloud/webhook/eef6e5ec-5eee-4e6c-96d5-88155999ee98', {
+      method: 'POST',
+      body: fd
+    });
+    if (res.ok) {
+      const timestamp = new Date().toLocaleString();
+      document.getElementById('result').textContent = `Generation Request Sent [${timestamp}]`;
+    } else {
+      const errorText = await res.text();
+      document.getElementById('result').textContent = `Failed To Send: ${res.status} ${res.statusText} - ${errorText}`;
+    }
+  } catch (err) {
+    document.getElementById('result').textContent = `Failed To Send: ${err}`;
   }
 });

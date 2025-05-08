@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+:root {
+  --myrtille-1: #BFF1F5;
+  --myrtille-2: #80E4EB;
+  --myrtille-3: #40D6E2;
+  --myrtille-4: #00C9D8;
+  --myrtille-5: #0097A2;
+  --myrtille-6: #00646C;
+  --myrtille-7: #003236;
+  --black: #000000;
+  --white: #ffffff;
+}
+
+body{
+  font-family: 'Raleway', sans-serif;
+  background-color: var(--white);
+  color: var(--black);
+  max-width:900px;
+  margin:2rem auto;
+  padding:0 1rem;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background-color: var(--white);
+  margin-bottom:1rem;
+}
+th,td{
+  border: 1px solid var(--myrtille-5);
+  padding:0.5rem;
+  vertical-align:top;
+}
+th{
+  background-color: var(--myrtille-2);
+  color: var(--myrtille-7);
+}
+tr:nth-child(even) {
+  background-color: var(--myrtille-1);
+}
+tr:nth-child(odd) {
+  background-color: var(--white);
+}
+input[type='number']{
+  width:4rem;
+}
+textarea{
+  width:100%;
+}
+button{
+  cursor: pointer;
+  background-color: var(--myrtille-4);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+button:hover {
+  background-color: var(--myrtille-3);
+}
+.drop-zone{
+  position:relative;
+  min-height:60px;
+  padding:0.5rem;
+  border: 2px dashed var(--myrtille-3);
+  border-radius:4px;
+  text-align:center;
+  overflow:hidden;
+  background-color: var(--white);
+}
+.drop-zone--over{
+  border-color: var(--myrtille-5);
+}
+.drop-zone__prompt{
+  color: var(--myrtille-6);
+  font-size:0.9rem;
+}
+.drop-zone__thumb{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+}

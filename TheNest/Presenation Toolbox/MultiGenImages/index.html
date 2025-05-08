@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi‑Prompt Image Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Multi‑Prompt Image Generator</h1>
+
+  <form id="promptForm">
+    <table id="promptTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Image 1</th>
+          <th>Image 2</th>
+          <th>Weight (0‑1)</th>
+          <th>Prompt</th>
+          <th>Multi‑Gen</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Template row (cloned by JS) -->
+        <tr class="promptRow">
+          <td class="rowIdx">1</td>
+          <td>
+            <div class="drop-zone">
+              <span class="drop-zone__prompt">Drop file or click</span>
+              <input type="file" name="img1" accept="image/*" class="drop-zone__input" required>
+            </div>
+          </td>
+          <td>
+            <div class="drop-zone">
+              <span class="drop-zone__prompt">Drop file or click</span>
+              <input type="file" name="img2" accept="image/*" class="drop-zone__input">
+            </div>
+          </td>
+          <td><input type="number" name="weight" min="0" max="1" step="0.01" value="0.5"></td>
+          <td><textarea name="prompt" rows="2" placeholder="Optional…"></textarea></td>
+          <td style="text-align:center"><input type="checkbox" name="multigen"></td>
+          <td style="text-align:center"><button type="button" class="removeBtn">✖</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" id="addRowBtn">Add row</button>
+    <button type="submit" id="submitBtn">Send to n8n</button>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script src="app.js"></script>
+</body>
+</html>

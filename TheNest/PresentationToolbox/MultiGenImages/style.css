@@ -54,6 +54,7 @@ button{
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
 }
 button:hover {
   background-color: var(--myrtille-3);
@@ -88,6 +89,7 @@ button:focus, .drop-zone:focus {
   text-align:center;
   overflow:hidden;
   background-color: var(--white);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
 .drop-zone--over{
   border-color: var(--myrtille-5);
@@ -101,6 +103,8 @@ button:focus, .drop-zone:focus {
   inset:0;
   background-size:cover;
   background-position:center;
+  max-height: 120px;
+  object-fit: cover;
 }
 
 #pageHeader {

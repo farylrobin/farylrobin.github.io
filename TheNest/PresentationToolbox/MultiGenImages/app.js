@@ -15,6 +15,21 @@ document.body.addEventListener('click', e => {
   }
 });
 
+// -------- fetch with timeout helper --------
+async function fetchWithTimeout(resource, options = {}, timeout = 30000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  try {
+    const response = await fetch(resource, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return response;
+  } catch (err) {
+    clearTimeout(id);
+    throw err;
+  }
+}
+
+
 // -------- drop‑zone helpers --------
 document.querySelectorAll('.drop-zone__input').forEach(inputElement=>{
   const dz=inputElement.closest('.drop-zone');
@@ -138,22 +153,29 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
   submitBtn.disabled = true;
   const rows = document.querySelectorAll('#promptTable tbody tr');
   const fd = new FormData();
+  let appendedRows = 0;
   rows.forEach((tr, i) => {
     const img1 = tr.querySelector('input[name="img1"]').files[0];
     const img2 = tr.querySelector('input[name="img2"]').files[0];
     const weight = tr.querySelector('input[name="weight"]').value || '0.5';
     const prompt = tr.querySelector('textarea[name="prompt"]').value;
     if (!img1 && !img2 && !prompt.trim()) return; // skip blank rows
+    appendedRows++;
     if (img1) fd.append(`rows[${i}][img1]`, img1);
     if (img2) fd.append(`rows[${i}][img2]`, img2);
     fd.append(`rows[${i}][weight]`, weight);
     fd.append(`rows[${i}][prompt]`, prompt);
   });
+  if (appendedRows === 0) {
+    document.getElementById('result').textContent = 'No data to send';
+    resetSubmitBtn();
+    return;
+  }
 
   console.log('Submitting rows:', [...fd.entries()]);
 
   try {
-    const res = await fetch('https://farylrobin.app.n8n.cloud/webhook/eef6e5ec-5eee-4e6c-96d5-88155999ee98', {
+    const res = await fetchWithTimeout('https://farylrobin.app.n8n.cloud/webhook/eef6e5ec-5eee-4e6c-96d5-88155999ee98', {
       method: 'POST',
       body: fd
     });
@@ -163,9 +185,11 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
     } else {
       const errorText = await res.text();
       document.getElementById('result').textContent = `Failed To Send: ${res.status} ${res.statusText} - ${errorText}`;
+      console.error('Error response:', errorText);
     }
   } catch (err) {
     document.getElementById('result').textContent = `Failed To Send: ${err}`;
+    console.error('Fetch error:', err);
     // keep button disabled until user edits the table
   }
 });

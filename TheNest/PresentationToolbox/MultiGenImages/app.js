@@ -106,8 +106,11 @@ function addRow(){
     if(el.type==='file') el.value='';
     if(el.name==='weight') el.value='0.5';
   });
-  clone.querySelectorAll('.drop-zone').forEach(dz=>{
-    dz.innerHTML='<span class="drop-zone__prompt">Drop file or click</span><input type="file" accept="image/*" class="drop-zone__input">';
+  clone.querySelectorAll('.drop-zone').forEach((dz, idx) => {
+    const fieldName = idx === 0 ? 'img1' : 'img2';
+    dz.innerHTML =
+      '<span class="drop-zone__prompt">Drop file or click</span>' +
+      `<input type="file" name="${fieldName}" accept="image/*" class="drop-zone__input">`;
   });
   tableBody.appendChild(clone);
   initDropZones(clone);
@@ -155,8 +158,10 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
   const fd = new FormData();
   let appendedRows = 0;
   rows.forEach((tr, i) => {
-    const img1 = tr.querySelector('input[name="img1"]').files[0];
-    const img2 = tr.querySelector('input[name="img2"]').files[0];
+    const img1Input = tr.querySelector('input[name="img1"]');
+    const img2Input = tr.querySelector('input[name="img2"]');
+    const img1 = img1Input && img1Input.files[0];
+    const img2 = img2Input && img2Input.files[0];
     const weight = tr.querySelector('input[name="weight"]').value || '0.5';
     const prompt = tr.querySelector('textarea[name="prompt"]').value;
     if (!img1 && !img2 && !prompt.trim()) return; // skip blank rows
@@ -168,6 +173,11 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
   });
   if (appendedRows === 0) {
     document.getElementById('result').textContent = 'No data to send';
+    resetSubmitBtn();
+    return;
+  }
+  // Guard: if FormData is empty, nothing to send
+  if (!fd.has('rows[0][img1]') && !fd.has('rows[0][img2]') && !fd.has('rows[0][prompt]')) {
     resetSubmitBtn();
     return;
   }
@@ -190,6 +200,7 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
   } catch (err) {
     document.getElementById('result').textContent = `Failed To Send: ${err}`;
     console.error('Fetch error:', err);
+    resetSubmitBtn();
     // keep button disabled until user edits the table
   }
 });

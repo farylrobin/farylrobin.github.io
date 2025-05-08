@@ -32,11 +32,11 @@ th,td{
   vertical-align:top;
 }
 th{
-  background-color: var(--myrtille-2);
+  background-color: #F2F2F2;
   color: var(--myrtille-7);
 }
 tr:nth-child(even) {
-  background-color: var(--myrtille-1);
+  background-color: #F2F2F2;
 }
 tr:nth-child(odd) {
   background-color: var(--white);
@@ -80,4 +80,29 @@ button:hover {
   inset:0;
   background-size:cover;
   background-position:center;
+}
+
+#pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.clear-image {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.clear-image:hover {
+  background: var(--myrtille-5);
 }

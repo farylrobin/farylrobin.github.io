@@ -1,3 +1,19 @@
+// -------- clear-image handler --------
+document.body.addEventListener('click', e => {
+  if (e.target.classList.contains('clear-image')) {
+    const dz = e.target.closest('.drop-zone');
+    const input = dz.querySelector('.drop-zone__input');
+    input.value = '';
+    const thumb = dz.querySelector('.drop-zone__thumb');
+    if (thumb) thumb.remove();
+    e.target.remove();
+    const promptEl = document.createElement('span');
+    promptEl.className = 'drop-zone__prompt';
+    promptEl.textContent = 'Drop file or click';
+    dz.appendChild(promptEl);
+  }
+});
+
 // -------- drop‑zone helpers --------
 document.querySelectorAll('.drop-zone__input').forEach(inputElement=>{
   const dz=inputElement.closest('.drop-zone');
@@ -35,6 +51,12 @@ function updateThumbnail(dz,file){
     thumb.className='drop-zone__thumb';
     dz.appendChild(thumb);
     dz.querySelector('.drop-zone__prompt').remove();
+
+    const clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.className = 'clear-image';
+    clearBtn.textContent = '×';
+    dz.appendChild(clearBtn);
   }
   thumb.dataset.label=file.name;
   const reader=new FileReader();
@@ -116,7 +138,7 @@ document.getElementById('promptForm').addEventListener('submit',async e=>{
   });
 
   try{
-    const res=await fetch('https://n8n.example.com/webhook/multi-image',{method:'POST',body:fd});
+    const res=await fetch('https://farylrobin.app.n8n.cloud/webhook/eef6e5ec-5eee-4e6c-96d5-88155999ee98',{method:'POST',body:fd});
     const data=await res.json();
     document.getElementById('result').textContent=JSON.stringify(data,null,2);
   }catch(err){

@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multi‑Prompt Image Generator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Multi‑Prompt Image Generator</h1>
+  <div id="pageHeader">
+    <h1>Multi‑Prompt Image Generator</h1>
+    <button type="submit" form="promptForm" id="submitBtn">Send to n8n</button>
+  </div>
 
   <form id="promptForm">
     <table id="promptTable">
@@ -26,13 +30,13 @@
         <tr class="promptRow">
           <td class="rowIdx">1</td>
           <td>
-            <div class="drop-zone">
+            <div class="drop-zone" tabindex="0" role="button" aria-label="Drop file or click to upload an image">
               <span class="drop-zone__prompt">Drop file or click</span>
               <input type="file" name="img1" accept="image/*" class="drop-zone__input" required>
             </div>
           </td>
           <td>
-            <div class="drop-zone">
+            <div class="drop-zone" tabindex="0" role="button" aria-label="Drop file or click to upload an image">
               <span class="drop-zone__prompt">Drop file or click</span>
               <input type="file" name="img2" accept="image/*" class="drop-zone__input">
             </div>
@@ -40,16 +44,15 @@
           <td><input type="number" name="weight" min="0" max="1" step="0.01" value="0.5"></td>
           <td><textarea name="prompt" rows="2" placeholder="Optional…"></textarea></td>
           <td style="text-align:center"><input type="checkbox" name="multigen"></td>
-          <td style="text-align:center"><button type="button" class="removeBtn">✖</button></td>
+          <td style="text-align:center"><button type="button" class="removeBtn" aria-label="Remove row">✖</button></td>
         </tr>
       </tbody>
     </table>
-    <button type="button" id="addRowBtn">Add row</button>
-    <button type="submit" id="submitBtn">Send to n8n</button>
+    <button type="button" id="addRowBtn" aria-label="Add row">+</button>
   </form>
 
   <pre id="result"></pre>
 
-  <script src="app.js"></script>
+  <script defer src="app.js"></script>
 </body>
 </html>

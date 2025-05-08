@@ -143,11 +143,14 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
     const img2 = tr.querySelector('input[name="img2"]').files[0];
     const weight = tr.querySelector('input[name="weight"]').value || '0.5';
     const prompt = tr.querySelector('textarea[name="prompt"]').value;
+    if (!img1 && !img2 && !prompt.trim()) return; // skip blank rows
     if (img1) fd.append(`rows[${i}][img1]`, img1);
     if (img2) fd.append(`rows[${i}][img2]`, img2);
     fd.append(`rows[${i}][weight]`, weight);
     fd.append(`rows[${i}][prompt]`, prompt);
   });
+
+  console.log('Submitting rows:', [...fd.entries()]);
 
   try {
     const res = await fetch('https://farylrobin.app.n8n.cloud/webhook/eef6e5ec-5eee-4e6c-96d5-88155999ee98', {

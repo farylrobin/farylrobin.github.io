@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --T1: 32px;
+      --T2: 13px;
+      --T3: 11px;
+      --R: 4vh;
+      --accent-color: #000000;
+      --overlay-bg: #000000F2;
+      --handle-bg: #000000CC;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8f8f8;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 0 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .title-container {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 52px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .outline-text {
+      color: transparent;
+      -webkit-text-stroke: 1px #ccc;
+    }
+
+    .solid-text {
+      color: #000;
+    }
+
+    .date-text {
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .content-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+      padding: 20px;
+    }
+
+    .post-container {
+      display: flex;
+      gap: 16px;
+    }
+
+    .video-card {
+      flex: 1;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-content {
+      position: relative;
+      width: 100%;
+    }
+
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      padding-bottom: 177.78%;
+      background: #f0f0f0;
+    }
+
+    .video-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      object-fit: cover;
+    }
+
+    .metrics-container {
+      width: 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 40px;
+    }
+
+    .source-text {
+      font-family: 'Raleway', sans-serif;
+      color: #666;
+      font-size: var(--T3);
+      margin-bottom: 8px;
+    }
+
+    .platform-name {
+      font-weight: 700;
+    }
+
+    .metric-pill {
+      background: var(--accent-color);
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: 'Raleway', sans-serif;
+      font-size: var(--T3);
+      font-weight: 400;
+      line-height: 1.4;
+      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-value {
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .hashtags {
+      margin-top: 12px;
+      font-family: 'Raleway', sans-serif;
+      font-size: var(--T3);
+      color: #666;
+      line-height: 1.6;
+      word-wrap: break-word;
+    }
+
+    .post-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(5px);
+      z-index: 10;
+    }
+
+    .rank {
+      background: var(--accent-color);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: var(--T3);
+    }
+
+    .handle {
+      background: var(--handle-bg);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: var(--T3);
+      text-transform: uppercase;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+    }
+
+    .right-panel-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--accent-color);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      font-size: var(--T2);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .right-panel-toggle img {
+      height: 16px;
+      width: auto;
+      max-width: 100px;
+      object-fit: contain;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--overlay-bg);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 90vw;
+      max-height: 90vh;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+
+    .popup-header {
+      background-color: var(--accent-color);
+      margin: -24px -24px 16px -24px;
+      padding: 12px 20px;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: sticky;
+      top: -24px;
+      z-index: 20;
+    }
+
+    .popup-header img {
+      height: 16px;
+      width: auto;
+      max-width: 100px;
+      object-fit: contain;
+    }
+
+    .popup-header span {
+      color: white;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      font-size: var(--T2);
+      font-weight: 700;
+    }
+
+    .popup-section {
+      background: #f5f5f5;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .popup-section h2 {
+      color: black;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      font-size: 18px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 30;
+    }
+
+    .show {
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .title {
+        font-size: 36px;
+      }
+
+      .content-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+
+      .popup-content {
+        padding: 16px;
+        width: 95%;
+      }
+
+      .popup-header {
+        margin: -16px -16px 12px -16px;
+        padding: 10px 16px;
+      }
+      
+      .right-panel-toggle {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title-container">
+      <h1 class="title">
+        <span class="outline-text">SOCIAL TRENDS</span>
+        <span class="solid-text">KITTEN HEELS</span>
+      </h1>
+      <span class="date-text">DATA WAS PULLED ON 05/13/2025 10:02 am EST</span>
+    </div>
+    <div class="right-panel-toggle" id="keyTakeawaysBtn">
+      CLICK FOR <img src="https://github.com/farylrobin/farylrobin.github.io/blob/master/social_presentations/farylrobin_social_snapshot_11_26_2024_v2/assets/FR_LOGO_WHITE.png?raw=true" alt="Faryl Robin Logo" class="logo" style="height: 20px;"> SUPPORTING INSIGHTS
+    </div>
+  </div>
+  <div class="content-container">
+    <div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7487063331996454175?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#1</div>
+                    <div class="handle">@xxjocki</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">55507.10%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">171,400</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">672</span></div>
+            <div class="hashtags">#kittenheels #fypシ #foryoupage #content</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7497696550706023710?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#2</div>
+                    <div class="handle">@imariarae</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">18799.25%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">25,100</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">91</span></div>
+            <div class="hashtags">#kittenheels #fyp</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7487805560914578730?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#3</div>
+                    <div class="handle">@itzelit123</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">5354.13%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">59,400</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">245</span></div>
+            <div class="hashtags">#kittenheels #summerheels #marshallsfinds</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7473104742252629270?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#4</div>
+                    <div class="handle">@brunettebtch6</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">2448.66%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">203,400</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">402</span></div>
+            <div class="hashtags">#kittenheels #coach #coachshoes #sandal #fyp</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7499644685720341806?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#5</div>
+                    <div class="handle">@xocorall</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">2305.50%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">115,400</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">313</span></div>
+            <div class="hashtags">#rossdressforless #rossfinds #kittenheels #fyp</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7477591020310465834?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#6</div>
+                    <div class="handle">@maryjaneehenry</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">1765.01%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">167,500</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">247</span></div>
+            <div class="hashtags">#kittenheels #carriebradshaw #satc #heels #vacation</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7491457495727213867?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#7</div>
+                    <div class="handle">@xocorall</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">1170.63%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">58,600</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">154</span></div>
+            <div class="hashtags">#zarakittenheels #kittenheels #heelsaddict #fyp</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7482941764878290218?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#8</div>
+                    <div class="handle">@taykailani</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">247.75%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">35,600</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">76</span></div>
+            <div class="hashtags">#zara #kittenheels</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DAMcyzLyv6S/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#9</div>
+                    <div class="handle">@kenziecolemann</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">26.77%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">691</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">5</span></div>
+            <div class="hashtags">#heel #heels #kittenheels #outfit #outfitinspiration #outfitinspo</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DG0rNr2xdYj/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#10</div>
+                    <div class="handle">@sholafako</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">1.74%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">225</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">5</span></div>
+            <div class="hashtags">#kittenheels #classystyle #classyoutfit #fashioninspo #puttogether #outfitinspo</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DJiuxaygx3_/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#11</div>
+                    <div class="handle">@marthawr</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.82%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">-1</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">115</span></div>
+            <div class="hashtags">#summerinthecity☀️ #allblackoutfit #popofyellow #butteryellow #whatiwore #stylediaries #pinterestgirls #pinterestgirlaesthetic #kittenheel #bermudashorts ...</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DIYzF_MRBxX/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#12</div>
+                    <div class="handle">@kaylee.slagus</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.73%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">233</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">44</span></div>
+            
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DIVRPo-u-gN/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#13</div>
+                    <div class="handle">@stylemagazines</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.14%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">86</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">1</span></div>
+            <div class="hashtags">#stylemagazines #fashion #kittenheels #shopping</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DI1abnXuvjk/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#14</div>
+                    <div class="handle">@kristiana__________</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.07%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">-1</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">3</span></div>
+            
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DIRk304N0i2/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#15</div>
+                    <div class="handle">@curtsy</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.05%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">78</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">0</span></div>
+            <div class="hashtags">#kittenheels #heels #chic #chicoutfit #chicstyle #outfitinspo #fashion #style #outfitideas #shoes ...</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DJV7Fuczt_5/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#16</div>
+                    <div class="handle">@wear.soul</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.02%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">54</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">0</span></div>
+            <div class="hashtags">#wearsouls629</div>
+        </div>
+    </div>
+  </div>
+  <div class="popup-overlay" id="keyTakeawaysPopup">
+    <div class="popup-content">
+      <button class="close-button" onclick="closePopup()">×</button>
+      <div class="popup-header">
+        <img src="https://github.com/farylrobin/farylrobin.github.io/blob/master/social_presentations/farylrobin_social_snapshot_11_26_2024_v2/assets/FR_LOGO_WHITE.png?raw=true" alt="Faryl Robin Logo" class="logo" style="height: 20px;">
+        <span>SUPPORTING INSIGHTS</span>
+      </div>
+      <div class="popup-section" style="max-width: 1400px; margin: 0 auto; padding: 20px;">
+            <h2 style="text-align: center; margin-bottom: 24px; font-family: 'Oswald', sans-serif; font-weight: 900; text-transform: uppercase;">
+                SUPPORTING INSIGHTS
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                
+        <div style="
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        ">
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-bottom: 75%;
+                margin-bottom: 8px;
+                overflow: hidden;
+                border-radius: 8px;
+            ">
+                <img 
+                    src="https://app.box.com/shared/static/bk2cq26ekd6zht0aybeel8iz46chn7xu" 
+                    alt="Content Image" 
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                        object-position: center;
+                        transition: transform 0.3s ease;
+                    "
+                    onmouseover="this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.transform='scale(1)'"
+                />
+            </div>
+            <p style="
+                font-family: 'Oswald', sans-serif;
+                font-size: 14px;
+                font-weight: 900;
+                color: #333;
+                text-align: center;
+                margin: 0;
+                line-height: 1.4;
+                text-transform: uppercase;
+            ">
+                
+            </p>
+        </div>
+    
+        <div style="
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        ">
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-bottom: 75%;
+                margin-bottom: 8px;
+                overflow: hidden;
+                border-radius: 8px;
+            ">
+                <img 
+                    src="https://app.box.com/shared/static/grgxaq0e9asakpdu9pvmuzhc1yov1cqp" 
+                    alt="Content Image" 
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                        object-position: center;
+                        transition: transform 0.3s ease;
+                    "
+                    onmouseover="this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.transform='scale(1)'"
+                />
+            </div>
+            <p style="
+                font-family: 'Oswald', sans-serif;
+                font-size: 14px;
+                font-weight: 900;
+                color: #333;
+                text-align: center;
+                margin: 0;
+                line-height: 1.4;
+                text-transform: uppercase;
+            ">
+                
+            </p>
+        </div>
+    
+        <div style="
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        ">
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-bottom: 75%;
+                margin-bottom: 8px;
+                overflow: hidden;
+                border-radius: 8px;
+            ">
+                <img 
+                    src="https://app.box.com/shared/static/hg05z9pwr8sdw7sn5oj920vd8c7yw5ba" 
+                    alt="Content Image" 
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                        object-position: center;
+                        transition: transform 0.3s ease;
+                    "
+                    onmouseover="this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.transform='scale(1)'"
+                />
+            </div>
+            <p style="
+                font-family: 'Oswald', sans-serif;
+                font-size: 14px;
+                font-weight: 900;
+                color: #333;
+                text-align: center;
+                margin: 0;
+                line-height: 1.4;
+                text-transform: uppercase;
+            ">
+                
+            </p>
+        </div>
+    
+        <div style="
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        ">
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-bottom: 75%;
+                margin-bottom: 8px;
+                overflow: hidden;
+                border-radius: 8px;
+            ">
+                <img 
+                    src="https://app.box.com/shared/static/ot0asnflebhh03n3kae39dbehwqzlx3k" 
+                    alt="Content Image" 
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                        object-position: center;
+                        transition: transform 0.3s ease;
+                    "
+                    onmouseover="this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.transform='scale(1)'"
+                />
+            </div>
+            <p style="
+                font-family: 'Oswald', sans-serif;
+                font-size: 14px;
+                font-weight: 900;
+                color: #333;
+                text-align: center;
+                margin: 0;
+                line-height: 1.4;
+                text-transform: uppercase;
+            ">
+                
+            </p>
+        </div>
+    
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector('.right-panel-toggle').addEventListener('click', function() {
+      document.getElementById('keyTakeawaysPopup').classList.add('show');
+    });
+    function closePopup() {
+      document.getElementById('keyTakeawaysPopup').classList.remove('show');
+    }
+  </script>
+</body>
+</html>

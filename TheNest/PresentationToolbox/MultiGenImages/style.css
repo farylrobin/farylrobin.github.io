@@ -22,24 +22,21 @@ body{
 }
 table{
   width:100%;
-  border-collapse:collapse;
+  border-collapse: separate;
+  border-spacing: 10px;
   background-color: var(--white);
   margin-bottom:1rem;
 }
 th,td{
-  border: 1px solid var(--myrtille-5);
+  border: none;
+  border-radius: 10px;
   padding:0.5rem;
   vertical-align:top;
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
 }
 th{
   background-color: #F2F2F2;
   color: var(--myrtille-7);
-}
-tr:nth-child(even) {
-  background-color: #F2F2F2;
-}
-tr:nth-child(odd) {
-  background-color: var(--white);
 }
 input[type='number']{
   width:4rem;

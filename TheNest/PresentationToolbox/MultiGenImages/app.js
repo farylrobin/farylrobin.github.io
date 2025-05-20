@@ -1,4 +1,4 @@
-// v1.3 - Single image input & prompt per row (Image 2 and weight removed)
+// v1.5 - Enter moves to next row (or creates one); Shift+Enter inserts newline. Single image input & prompt per row.
 // -------- clear-image handler --------
 document.body.addEventListener('click', e => {
   if (e.target.classList.contains('clear-image')) {
@@ -150,14 +150,18 @@ function initDropZones(scope){
 
 // -------- prompt textarea navigation (Enter vs Shift+Enter) --------
 document.addEventListener('keydown', function (e) {
-  // Only act on the prompt textareas
+  // Only act on prompt textareas
   if (e.target.matches('textarea[name="prompt"]')) {
-    // If plain Enter (no Shift), move to the next row's prompt (or create one)
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // stop newline
+    const isEnter   = (e.key === 'Enter' || e.keyCode === 13);
+    const isShift   = e.shiftKey;
+    if (isEnter && !isShift) {
+      // Plain Enter -> move to next prompt
+      e.preventDefault();
+      e.stopPropagation();
+
       const currentRow = e.target.closest('tr');
       let nextRow = currentRow.nextElementSibling;
-      // If there isn't a next row yet, create one
+      // If there isn't a next row, create one
       if (!nextRow) {
         addRow();
         nextRow = tableBody.lastElementChild;
@@ -167,7 +171,7 @@ document.addEventListener('keydown', function (e) {
         nextPrompt.focus();
       }
     }
-    // If Shift+Enter, allow the default newline (do nothing)
+    // Shift+Enter => do nothing, native newline
   }
 });
 

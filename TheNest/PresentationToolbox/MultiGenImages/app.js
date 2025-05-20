@@ -148,6 +148,29 @@ function initDropZones(scope){
   });
 }
 
+// -------- prompt textarea navigation (Enter vs Shift+Enter) --------
+document.addEventListener('keydown', function (e) {
+  // Only act on the prompt textareas
+  if (e.target.matches('textarea[name="prompt"]')) {
+    // If plain Enter (no Shift), move to the next row's prompt (or create one)
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // stop newline
+      const currentRow = e.target.closest('tr');
+      let nextRow = currentRow.nextElementSibling;
+      // If there isn't a next row yet, create one
+      if (!nextRow) {
+        addRow();
+        nextRow = tableBody.lastElementChild;
+      }
+      const nextPrompt = nextRow.querySelector('textarea[name="prompt"]');
+      if (nextPrompt) {
+        nextPrompt.focus();
+      }
+    }
+    // If Shift+Enter, allow the default newline (do nothing)
+  }
+});
+
 // -------- submit --------
 document.getElementById('promptForm').addEventListener('submit', async e => {
   e.preventDefault();

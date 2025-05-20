@@ -1,3 +1,4 @@
+// v1.3 - Single image input & prompt per row (Image 2 and weight removed)
 // -------- clear-image handler --------
 document.body.addEventListener('click', e => {
   if (e.target.classList.contains('clear-image')) {

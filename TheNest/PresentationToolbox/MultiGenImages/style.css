@@ -136,3 +136,48 @@ button:focus, .drop-zone:focus {
     overflow-x: auto;
   }
 }
+
+/* Prompt textarea fills its entire cell */
+textarea[name="prompt"] {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+/* Center the row index and remove cells */
+td.rowIdx,
+td.removeCell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Bigger black Add (+) and Remove (✖) buttons */
+#addRowBtn,
+.addRowBtn {
+  font-size: 2rem; 
+  width: 2.5rem;
+  height: 2.5rem;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeBtn {
+  font-size: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -104,11 +104,13 @@ function addRow(){
   clone.querySelectorAll('input,textarea').forEach(el=>{
     if(el.type!=='checkbox') el.value='';
     if(el.type==='file') el.value='';
+    if(el.name==='weight') el.value='0.5';
   });
-  clone.querySelectorAll('.drop-zone').forEach((dz) => {
+  clone.querySelectorAll('.drop-zone').forEach((dz, idx) => {
+    const fieldName = idx === 0 ? 'img1' : 'img2';
     dz.innerHTML =
       '<span class="drop-zone__prompt">Drop file or click</span>' +
-      `<input type="file" name="img1" accept="image/*" class="drop-zone__input">`;
+      `<input type="file" name="${fieldName}" accept="image/*" class="drop-zone__input">`;
   });
   tableBody.appendChild(clone);
   initDropZones(clone);
@@ -157,11 +159,16 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
   let appendedRows = 0;
   rows.forEach((tr, i) => {
     const img1Input = tr.querySelector('input[name="img1"]');
+    const img2Input = tr.querySelector('input[name="img2"]');
     const img1 = img1Input && img1Input.files[0];
+    const img2 = img2Input && img2Input.files[0];
+    const weight = tr.querySelector('input[name="weight"]').value || '0.5';
     const prompt = tr.querySelector('textarea[name="prompt"]').value;
-    if (!img1 && !prompt.trim()) return; // skip blank rows
+    if (!img1 && !img2 && !prompt.trim()) return; // skip blank rows
     appendedRows++;
     if (img1) fd.append(`rows[${i}][img1]`, img1);
+    if (img2) fd.append(`rows[${i}][img2]`, img2);
+    fd.append(`rows[${i}][weight]`, weight);
     fd.append(`rows[${i}][prompt]`, prompt);
   });
   if (appendedRows === 0) {
@@ -170,7 +177,7 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
     return;
   }
   // Guard: if FormData is empty, nothing to send
-  if (!fd.has('rows[0][img1]') && !fd.has('rows[0][prompt]')) {
+  if (!fd.has('rows[0][img1]') && !fd.has('rows[0][img2]') && !fd.has('rows[0][prompt]')) {
     resetSubmitBtn();
     return;
   }

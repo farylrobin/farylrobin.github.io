@@ -18,7 +18,9 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Image Reference</th>
+          <th>Image 1</th>
+          <th>Image 2</th>
+          <th>Weight (0‑1)</th>
           <th>Prompt</th>
           <th>Remove</th>
         </tr>
@@ -33,6 +35,13 @@
               <input type="file" name="img1" accept="image/*" class="drop-zone__input">
             </div>
           </td>
+          <td>
+            <div class="drop-zone" tabindex="0" role="button" aria-label="Drop file or click to upload an image">
+              <span class="drop-zone__prompt">Drop file or click</span>
+              <input type="file" name="img2" accept="image/*" class="drop-zone__input">
+            </div>
+          </td>
+          <td><input type="number" name="weight" min="0" max="1" step="0.01" value="0.5"></td>
           <td><textarea name="prompt" rows="2" placeholder="Optional…"></textarea></td>
           <td style="text-align:center"><button type="button" class="removeBtn" aria-label="Remove row">✖</button></td>
         </tr>

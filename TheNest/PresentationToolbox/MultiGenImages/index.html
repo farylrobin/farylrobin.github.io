@@ -18,8 +18,8 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Image Reference</th>
-          <th>Prompt</th>
+          <th style="width:55%;">Prompt</th>
+          <th style="width:30%;">Image Reference</th>
           <th>Remove</th>
         </tr>
       </thead>
@@ -27,13 +27,13 @@
         <!-- Template row (cloned by JS) -->
         <tr class="promptRow">
           <td class="rowIdx">1</td>
+          <td><textarea name="prompt" rows="2" placeholder="Optional…" style="width:98%; min-width:15rem;"></textarea></td>
           <td>
             <div class="drop-zone" tabindex="0" role="button" aria-label="Drop file or click to upload an image">
               <span class="drop-zone__prompt">Drop file or click</span>
               <input type="file" name="img1" accept="image/*" class="drop-zone__input">
             </div>
           </td>
-          <td><textarea name="prompt" rows="2" placeholder="Optional…"></textarea></td>
           <td style="text-align:center"><button type="button" class="removeBtn" aria-label="Remove row">✖</button></td>
         </tr>
       </tbody>

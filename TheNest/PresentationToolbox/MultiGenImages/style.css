@@ -124,6 +124,7 @@ button:focus, .drop-zone:focus {
   align-self: flex-end;     /* bottom‑align with respect to the title */
   text-align: center;
   font-weight: 700;
+  margin-right: 0.75rem;   /* space before the user block */
 }
 
 .userGroup{
@@ -233,4 +234,14 @@ td.removeCell {
 }
 #userHandle {
   /* Overridden by .userGroup #userHandle for header input */
+}
+
+
+/* ---- UI text size consistency ---- */
+#versionLabel,
+.userGroup #userHandle,
+#domainText,
+#submitBtn {
+  font-size: 1rem;
+  line-height: 1.2;
 }

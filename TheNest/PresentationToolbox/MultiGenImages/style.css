@@ -129,7 +129,8 @@ button:focus, .drop-zone:focus {
 
 .userGroup{
   display: flex;
-  flex: 0 0 250px;          /* 125 px handle + 125 px domain */
+  flex: 0 0 250px;      /* 125 px handle + 125 px domain */
+  align-items: center;  /* vertically align handle input & domain text */
 }
 
 .userGroup #userHandle{
@@ -143,9 +144,8 @@ button:focus, .drop-zone:focus {
 
 #domainText{
   flex: 0 0 125px;
-  align-self: flex-start;   /* top‑align */
   display: flex;
-  align-items: flex-start;
+  align-items: center;   /* vertical align within the userGroup */
   justify-content: flex-start;
 }
 

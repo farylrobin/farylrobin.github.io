@@ -245,3 +245,12 @@ td.removeCell {
   font-size: 1rem;
   line-height: 1.2;
 }
+#companyLogo {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 100px;
+  height: auto;
+  opacity: 0.85;
+  z-index: 1000;
+}

@@ -8,15 +8,18 @@
 </head>
 <body>
   <div id="pageHeader">
-    <h1>Multi‑Prompt Image Generator</h1>
+    <h1 id="title">Multi‑Prompt Image Generator</h1>
     <span id="versionLabel">v1.6</span>
-    <label for="userHandle" id="userLabel">User&nbsp;@farylrobin.com:</label>
-    <input type="text"
-           id="userHandle"
-           name="userHandle"
-           placeholder="handle"
-           autocomplete="off"
-           style="width:150px;" />
+
+    <div class="userGroup">
+      <input type="text"
+             id="userHandle"
+             name="userHandle"
+             placeholder="handle"
+             autocomplete="off" />
+      <span id="domainText">@farylrobin.com</span>
+    </div>
+
     <button type="submit" form="promptForm" id="submitBtn">Submit MultiPrompt</button>
   </div>
 

@@ -183,3 +183,15 @@ td.removeCell {
   align-items: center;
   justify-content: center;
 }
+
+#userLabel {
+  margin-right: 0.25rem;
+  font-weight: 700;
+}
+#userHandle {
+  width: 150px;
+  padding: 0.4rem;
+  margin-right: 0.75rem;
+  border: 1px solid var(--myrtille-4);
+  border-radius: 4px;
+}

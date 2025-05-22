@@ -85,6 +85,10 @@ function updateThumbnail(dz,file){
 const tableBody=document.querySelector('#promptTable tbody');
 const addRowBtn=document.getElementById('addRowBtn');
 const submitBtn = document.getElementById('submitBtn');
+const userHandleInput = document.getElementById('userHandle');
+if (userHandleInput) {
+  userHandleInput.addEventListener('input', resetSubmitBtn);
+}
 function resetSubmitBtn() {
   submitBtn.classList.remove('submitting');
   submitBtn.disabled = false;
@@ -182,6 +186,10 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
   submitBtn.disabled = true;
   const rows = document.querySelectorAll('#promptTable tbody tr');
   const fd = new FormData();
+  const userHandle = userHandleInput ? userHandleInput.value.trim() : '';
+  if (userHandle) {
+    fd.append('userEmail', `${userHandle}@farylrobin.com`);
+  }
   let appendedRows = 0;
   rows.forEach((tr, i) => {
     const img1Input = tr.querySelector('input[name="img1"]');

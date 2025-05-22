@@ -9,8 +9,15 @@
 <body>
   <div id="pageHeader">
     <h1>Multi‑Prompt Image Generator</h1>
-    <span id="versionLabel">v1.5.1</span>
-    <button type="submit" form="promptForm" id="submitBtn">Send to n8n</button>
+    <span id="versionLabel">v1.6</span>
+    <label for="userHandle" id="userLabel">User&nbsp;@farylrobin.com:</label>
+    <input type="text"
+           id="userHandle"
+           name="userHandle"
+           placeholder="handle"
+           autocomplete="off"
+           style="width:150px;" />
+    <button type="submit" form="promptForm" id="submitBtn">Submit MultiPrompt</button>
   </div>
 
   <form id="promptForm">

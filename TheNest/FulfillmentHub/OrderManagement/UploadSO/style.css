@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+:root {
+  --myrtille-1: #BFF1F5;
+  --myrtille-2: #80E4EB;
+  --myrtille-3: #40D6E2;
+  --myrtille-4: #00C9D8;
+  --myrtille-5: #0097A2;
+  --myrtille-6: #00646C;
+  --myrtille-7: #003236;
+  --black: #000000;
+  --white: #ffffff;
+}
+
+body{
+  font-family: 'Raleway', sans-serif;
+  background-color: var(--white);
+  color: var(--black);
+  max-width:900px;
+  margin:2rem auto;
+  padding:0 1rem;
+}
+table{
+  width:100%;
+  border-collapse: separate;
+  border-spacing: 10px;
+  background-color: var(--white);
+  margin-bottom:1rem;
+}
+th,td{
+  border: none;
+  border-radius: 10px;
+  padding:0.5rem;
+  vertical-align:top;
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
+}
+th{
+  background-color: #F2F2F2;
+  color: var(--myrtille-7);
+}
+input[type='number']{
+  width:4rem;
+}
+textarea{
+  width:100%;
+}
+button{
+  cursor: pointer;
+  background-color: var(--myrtille-4);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+button:hover {
+  background-color: var(--myrtille-3);
+}
+/* submitted state */
+button.submitting {
+  background-color: var(--myrtille-2);
+  color: var(--myrtille-7);
+  border: 2px solid var(--myrtille-4);
+  cursor: progress;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+button:active {
+  background-color: var(--white);
+  color: var(--myrtille-4);
+  border: 2px solid var(--myrtille-4);
+}
+/* focus outlines for accessibility */
+button:focus, .drop-zone:focus {
+  outline: 2px solid var(--myrtille-5);
+  outline-offset: 2px;
+}
+.drop-zone{
+  position:relative;
+  min-height:60px;
+  padding:0.5rem;
+  border: 2px dashed var(--myrtille-3);
+  border-radius:4px;
+  text-align:center;
+  overflow:hidden;
+  background-color: var(--white);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.drop-zone--over{
+  border-color: var(--myrtille-5);
+}
+.drop-zone__prompt{
+  color: var(--myrtille-6);
+  font-size:0.9rem;
+}
+.drop-zone__thumb{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  max-height: 120px;
+  object-fit: cover;
+}
+
+#pageHeader {
+  display: flex;
+  flex-wrap: wrap;          /* keeps layout usable on small screens */
+  align-items: stretch;     /* lets the title span the full header height */
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+#pageHeader h1{
+  flex: 0 0 325px;
+  margin: 0;
+  display: flex;
+  align-items: center;      /* vertical centring */
+}
+
+#versionLabel{
+  flex: 0 0 50px;
+  align-self: flex-end;     /* bottom‑align with respect to the title */
+  text-align: center;
+  font-weight: 700;
+  margin-right: 0.75rem;   /* space before the user block */
+}
+
+.userGroup{
+  display: flex;
+  flex: 0 0 250px;      /* 125 px handle + 125 px domain */
+  align-items: center;  /* vertically align handle input & domain text */
+}
+
+.userGroup #userHandle{
+  flex: 0 0 125px;
+  text-align: right;        /* typing starts at the right edge */
+  direction: rtl;
+  padding: 0.4rem;
+  border: 1px solid var(--myrtille-4);
+  border-radius: 4px;
+}
+
+#domainText{
+  flex: 0 0 125px;
+  display: flex;
+  align-items: center;   /* vertical align within the userGroup */
+  justify-content: flex-start;
+}
+
+#submitBtn{
+  flex: 0 0 125px;
+  align-self: flex-start;   /* top‑align */
+  width: 125px;
+}
+.clear-image {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.clear-image:hover {
+  background: var(--myrtille-5);
+}
+
+/* responsive table overflow for small screens */
+@media (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Prompt textarea fills its entire cell */
+textarea[name="prompt"] {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+/* Center the row index and remove cells */
+td.rowIdx,
+td.removeCell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Bigger black Add (+) and Remove (✖) buttons */
+#addRowBtn,
+.addRowBtn {
+  font-size: 1.5rem;
+  font-weight: normal;
+  width: 40px;
+  height: 40px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeBtn {
+  font-size: 1.5rem;
+  font-weight: normal;
+  width: 40px;
+  height: 40px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#userLabel {
+  margin-right: 0.25rem;
+  font-weight: 700;
+}
+#userHandle {
+  /* Overridden by .userGroup #userHandle for header input */
+}
+
+
+/* ---- UI text size consistency ---- */
+#versionLabel,
+.userGroup #userHandle,
+#domainText,
+#submitBtn {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+#companyLogo {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 100px;
+  height: auto;
+  opacity: 0.85;
+  z-index: 1000;
+}
+
+/* ---- New form groups for v2 ---- */
+.fieldGroup,
+.uploadGroup{
+  margin-bottom:1rem;
+}
+.fieldGroup label,
+.uploadGroup label{
+  display:block;
+  font-weight:700;
+  margin-bottom:0.25rem;
+}
+select{
+  width:100%;
+  padding:0.4rem;
+  border:1px solid var(--myrtille-4);
+  border-radius:4px;
+  background-color:var(--white);
+}
+.uploadGroup .drop-zone{
+  margin-top:0.25rem;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Order Uploader</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="pageHeader">
+    <h1 id="title">Sales Order Uploader</h1>
+    <span id="versionLabel">v1.0.0</span>
+
+    <div class="userGroup">
+      <input type="text"
+             id="userHandle"
+             name="userHandle"
+             placeholder="handle"
+             autocomplete="off" />
+      <span id="domainText">@farylrobin.com</span>
+    </div>
+
+    <button type="submit" form="soForm" id="submitBtn">Submit</button>
+  </div>
+
+  <form id="soForm">
+    <div class="fieldGroup">
+      <label for="accountSelect">Account</label>
+      <select id="accountSelect" name="account" required>
+        <option value="" disabled selected>Select Account…</option>
+      </select>
+    </div>
+
+    <div class="fieldGroup">
+      <label for="seasonSelect">Season</label>
+      <select id="seasonSelect" name="season" disabled required>
+        <option value="" disabled selected>Select Season…</option>
+      </select>
+    </div>
+
+    <div class="fieldGroup">
+      <label for="soSelect">Update Existing Sales Order</label>
+      <select id="soSelect" name="accountSO" disabled required>
+        <option value="" disabled selected>Select Account SO…</option>
+      </select>
+    </div>
+
+    <h3>Upload Files</h3>
+
+    <div class="uploadGroup">
+      <label>SO File Upload</label>
+      <div class="drop-zone">
+        <span class="drop-zone__prompt">Drop file or click</span>
+        <input type="file" name="soFile" accept="*" class="drop-zone__input">
+      </div>
+    </div>
+
+    <div class="uploadGroup">
+      <label>Development Catalog Upload</label>
+      <div class="drop-zone">
+        <span class="drop-zone__prompt">Drop file or click</span>
+        <input type="file" name="devCatalog" accept="*" class="drop-zone__input">
+      </div>
+    </div>
+
+    <div class="uploadGroup">
+      <label>Amazon Development Catalog Upload</label>
+      <div class="drop-zone">
+        <span class="drop-zone__prompt">Drop file or click</span>
+        <input type="file" name="amazonDevCatalog" accept="*" class="drop-zone__input">
+      </div>
+    </div>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script src="app.js"></script>
+  <img src="assets/InnovationLockup.png" id="companyLogo" alt="Faryl Robin Logo">
+</body>
+</html>

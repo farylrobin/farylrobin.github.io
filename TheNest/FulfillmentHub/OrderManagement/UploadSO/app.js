@@ -153,6 +153,8 @@ form.addEventListener('submit', async e => {
   submitBtn.classList.add('submitting');
   submitBtn.disabled = true;
 
+  let submissionSucceeded = false;
+
   const account   = accountSelect.value.trim();
   const season    = seasonSelect.value.trim();
   const accountSO = soSelect.value.trim();
@@ -205,6 +207,9 @@ form.addEventListener('submit', async e => {
 
     if (res.ok){
       showResult(`Workflow started – ${new Date().toLocaleString()}`);
+      submissionSucceeded = true;
+      submitBtn.classList.remove('submitting');   // stop spinner
+      // keep disabled so user must refresh to send again
     } else {
       const txt = await res.text();
       showResult(`Failed: ${res.status} ${res.statusText} – ${txt}`);
@@ -213,6 +218,8 @@ form.addEventListener('submit', async e => {
     console.error(err);
     showResult(`Failed: ${err}`);
   } finally {
-    resetBtn();
+    if (!submissionSucceeded){
+      resetBtn();           // allow retry on failure
+    }
   }
 });

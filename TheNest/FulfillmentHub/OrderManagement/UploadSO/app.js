@@ -71,6 +71,20 @@ accountSelect.addEventListener('change', () => {
   soSelect.disabled = false;
 });
 
+/* ---------- helpers ---------- */
+function showResult(msg){
+  const resultEl = document.getElementById('result');
+  if (resultEl){
+    resultEl.textContent = msg;
+  } else {
+    console.log('Result element missing:', msg);
+  }
+}
+function resetBtn(){
+  submitBtn.classList.remove('submitting');
+  submitBtn.disabled = false;
+}
+
 /* ---------- drop-zone helpers (single-file) ---------- */
 document.querySelectorAll('.drop-zone__input').forEach(initDropZone);
 

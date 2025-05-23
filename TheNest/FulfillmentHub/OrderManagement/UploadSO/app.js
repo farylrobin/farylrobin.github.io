@@ -1,4 +1,4 @@
-// v2.2 – Account / Season / SO uploader  (single-request, JSON array per file)
+// v1.3 – Account / Season / SO uploader  (single-request, JSON array per file)
 
 /* ---------- helper: fetch with timeout ---------- */
 async function fetchWithTimeout(resource, options = {}, timeout = 30000){
@@ -24,7 +24,7 @@ const form            = document.getElementById('soForm');
 let   accountsData    = [];
 
 /* ---------- load JSON, populate Account dropdown ---------- */
-fetch('assets/AccountSeasonsSO.json')
+fetch('assets/AccountSeasonsSO.json', { cache: 'no-store' })
   .then(r => r.json())
   .then(data => {
     accountsData = data.Accounts || [];
@@ -44,7 +44,7 @@ accountSelect.addEventListener('change', () => {
 
   // reset child dropdowns
   seasonSelect.innerHTML = '<option value="" disabled selected>Select Season…</option>';
-  soSelect.innerHTML     = '<option value="" disabled selected>Select Account SO…</option>';
+  soSelect.innerHTML     = '<option value="NEW" selected>New Sales Order</option>';
   seasonSelect.disabled  = true;
   soSelect.disabled      = true;
 
@@ -159,15 +159,15 @@ form.addEventListener('submit', async e => {
 
   if (soFile){
     fd.append('soFile', soFile);
-    fileInfo.push({ account, season, accountSO, dropzoneIdentifier: 'SOFile' });
+    fileInfo.push({ dropzoneIdentifier: 'SOFile',        account, season, accountSO });
   }
   if (devCatalogFile){
     fd.append('devCatalog', devCatalogFile);
-    fileInfo.push({ account, season, accountSO, dropzoneIdentifier: 'DevCatOther' });
+    fileInfo.push({ dropzoneIdentifier: 'DevCatOther',   account, season, accountSO });
   }
   if (amazonCatalogFile){
     fd.append('amazonDevCatalog', amazonCatalogFile);
-    fileInfo.push({ account, season, accountSO, dropzoneIdentifier: 'DevCatAmazon' });
+    fileInfo.push({ dropzoneIdentifier: 'DevCatAmazon',  account, season, accountSO });
   }
 
   if (!fileInfo.length){

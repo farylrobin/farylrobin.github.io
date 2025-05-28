@@ -61,10 +61,10 @@ accountSelect.addEventListener('change', () => {
 
   // Account SOs (flat list)
   accObj.SalesOrders.forEach(so => {
-    so.AccountSO.forEach(aso => {
+    (so.AccountSO || []).forEach(accountSO => {
       const opt = document.createElement('option');
-      opt.value = aso.AccountSO;
-      opt.textContent = aso.AccountSO;
+      opt.value = accountSO;
+      opt.textContent = accountSO;
       soSelect.appendChild(opt);
     });
   });

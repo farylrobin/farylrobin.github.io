@@ -2,88 +2,43 @@
   "Accounts": [
     {
       "Account": "Amazon",
-      "Seasons": [
-        "Spring 2025",
-        "Summer 2025"
-      ],
+      "Seasons": ["Spring 2025", "Summer 2025"],
       "SalesOrders": [
         {
-          "FRSO": "New Sales Order",
-          "AccountSO": [
-            { "AccountSO": "New Sales Order" }
-          ]
-        },
-        {
-          "FRSO": "FRSO10001",
-          "AccountSO": [
-            { "AccountSO": "AccountSO10001" }
-          ]
+          "FRSO": "FROrder1748375963347532",
+          "AccountSO": ["1ESLL4WO", "AccountSO10002"]
         },
         {
           "FRSO": "FRSO10002",
-          "AccountSO": [
-            { "AccountSO": "AccountSO10002" }
-          ]
-        },
-        {
-          "FRSO": "FRSO10003",
-          "AccountSO": [
-            { "AccountSO": "AccountSO10003" }
-          ]
+          "AccountSO": ["AccountSO10003"]
         }
       ]
     },
     {
       "Account": "Walmart",
-      "Seasons": [
-        "Spring 2025",
-        "Summer 2025"
-      ],
+      "Seasons": ["Spring 2025", "Summer 2025"],
       "SalesOrders": [
         {
           "FRSO": "FRSO20001",
-          "AccountSO": [
-            { "AccountSO": "AccountSO20001" }
-          ]
+          "AccountSO": ["AccountSO20001"]
         },
         {
           "FRSO": "FRSO20002",
-          "AccountSO": [
-            { "AccountSO": "AccountSO20002" }
-          ]
-        },
-        {
-          "FRSO": "FRSO20003",
-          "AccountSO": [
-            { "AccountSO": "AccountSO20003" }
-          ]
+          "AccountSO": ["AccountSO20002", "AccountSO20003"]
         }
       ]
     },
     {
       "Account": "Target",
-      "Seasons": [
-        "Spring 2025",
-        "Summer 2025"
-      ],
+      "Seasons": ["C2 2025", "C3 2025"],
       "SalesOrders": [
         {
           "FRSO": "FRSO30001",
-          "AccountSO": [
-            { "AccountSO": "AccountSO30001" }
-          ]
+          "AccountSO": ["AccountSO30001", "AccountSO30002"]
         },
         {
           "FRSO": "FRSO30002",
-          "AccountSO": [
-            { "AccountSO": "AccountSO30002" }
-          ]
-        },
-        {
-          "FRSO": "FRSO30003",
-          "AccountSO": [
-            { "AccountSO": "AccountSO30003" }
-          ]
+          "AccountSO": ["AccountSO30003"]
         }
       ]
     }

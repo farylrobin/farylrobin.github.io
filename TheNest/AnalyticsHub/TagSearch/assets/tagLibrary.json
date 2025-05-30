@@ -1,0 +1,410 @@
+{
+  "region_filters": [
+    {
+      "id": "apac",
+      "label": "Asia Pacific"
+    },
+    {
+      "id": "emea",
+      "label": "Europe, Middle East & Africa"
+    },
+    {
+      "id": "latam",
+      "label": "Latin America"
+    },
+    {
+      "id": "na",
+      "label": "North America"
+    }
+  ],
+  "content_type_filters": [
+    {
+      "id": "analytics",
+      "label": "Analytics"
+    },
+    {
+      "id": "application_technique",
+      "label": "Application & Technique"
+    },
+    {
+      "id": "big_ideas",
+      "label": "Big Ideas"
+    },
+    {
+      "id": "brand_strategy",
+      "label": "Brand Strategy"
+    },
+    {
+      "id": "brands",
+      "label": "Brands"
+    },
+    {
+      "id": "buyers_briefing",
+      "label": "Buyers' Briefing"
+    },
+    {
+      "id": "campaigns",
+      "label": "Campaigns"
+    },
+    {
+      "id": "case_studies",
+      "label": "Case Studies"
+    },
+    {
+      "id": "category_guides",
+      "label": "Category Guides"
+    },
+    {
+      "id": "collection_review",
+      "label": "Collection Review"
+    },
+    {
+      "id": "conferences",
+      "label": "Conferences"
+    },
+    {
+      "id": "consumer",
+      "label": "Consumer"
+    },
+    {
+      "id": "consumer_forecast",
+      "label": "Consumer Forecast"
+    },
+    {
+      "id": "culture",
+      "label": "Culture"
+    },
+    {
+      "id": "design_capsule",
+      "label": "Design Capsule"
+    },
+    {
+      "id": "development",
+      "label": "Development"
+    },
+    {
+      "id": "directors_intelligence",
+      "label": "Director's Intelligence"
+    },
+    {
+      "id": "discovery_cities",
+      "label": "Discovery Cities"
+    },
+    {
+      "id": "ecommerce",
+      "label": "E-commerce"
+    },
+    {
+      "id": "emerging_concepts",
+      "label": "Emerging Concepts"
+    },
+    {
+      "id": "emerging_mindsets",
+      "label": "Emerging Mindsets"
+    },
+    {
+      "id": "essential_cities",
+      "label": "Essential Cities"
+    },
+    {
+      "id": "foresight",
+      "label": "Foresight"
+    },
+    {
+      "id": "future_of",
+      "label": "Future Of"
+    },
+    {
+      "id": "future_strategies",
+      "label": "Future Strategies"
+    },
+    {
+      "id": "icymi",
+      "label": "ICYMI"
+    },
+    {
+      "id": "in_season_hindsight",
+      "label": "In-Season & Hindsight"
+    },
+    {
+      "id": "influencers",
+      "label": "Influencers"
+    },
+    {
+      "id": "innovation",
+      "label": "Innovation"
+    },
+    {
+      "id": "intelligence",
+      "label": "Intelligence"
+    },
+    {
+      "id": "key_items",
+      "label": "Key Items"
+    },
+    {
+      "id": "lifestyle_strategy",
+      "label": "Lifestyle Strategy"
+    },
+    {
+      "id": "lifestyle_trends",
+      "label": "Lifestyle Trends"
+    },
+    {
+      "id": "macro_forecast",
+      "label": "Macro Forecast"
+    },
+    {
+      "id": "need_to_know",
+      "label": "Need to Know"
+    },
+    {
+      "id": "podcast",
+      "label": "Podcast"
+    },
+    {
+      "id": "pre_season_planning",
+      "label": "Pre-Season Planning"
+    },
+    {
+      "id": "press_previews",
+      "label": "Press Previews"
+    },
+    {
+      "id": "product_forecast",
+      "label": "Product Forecast"
+    },
+    {
+      "id": "research",
+      "label": "Research"
+    },
+    {
+      "id": "seasonal_events",
+      "label": "Seasonal Events"
+    },
+    {
+      "id": "sourcing",
+      "label": "Sourcing"
+    },
+    {
+      "id": "street_style",
+      "label": "Street Style"
+    },
+    {
+      "id": "tiktok_analytics",
+      "label": "TikTok Analytics"
+    },
+    {
+      "id": "trade_shows",
+      "label": "Trade Shows"
+    },
+    {
+      "id": "trendcurve",
+      "label": "TrendCurve"
+    },
+    {
+      "id": "webinar",
+      "label": "Webinar"
+    }
+  ],
+  "year_filters": [
+    {
+      "id": "2030",
+      "label": "2030"
+    },
+    {
+      "id": "2029",
+      "label": "2029"
+    },
+    {
+      "id": "2028",
+      "label": "2028"
+    },
+    {
+      "id": "2027",
+      "label": "2027"
+    },
+    {
+      "id": "2026",
+      "label": "2026"
+    },
+    {
+      "id": "2025",
+      "label": "2025"
+    },
+    {
+      "id": "2024",
+      "label": "2024"
+    },
+    {
+      "id": "2023",
+      "label": "2023"
+    },
+    {
+      "id": "2022",
+      "label": "2022"
+    },
+    {
+      "id": "2021",
+      "label": "2021"
+    },
+    {
+      "id": "2020",
+      "label": "2020"
+    },
+    {
+      "id": "2019",
+      "label": "2019"
+    }
+  ],
+  "season_filters": [
+    {
+      "id": "aw_30_31",
+      "label": "A/W 30/31"
+    },
+    {
+      "id": "ss_30",
+      "label": "S/S 30"
+    },
+    {
+      "id": "aw_29_30",
+      "label": "A/W 29/30"
+    },
+    {
+      "id": "ss_29",
+      "label": "S/S 29"
+    },
+    {
+      "id": "ss_27",
+      "label": "S/S 27"
+    },
+    {
+      "id": "aw_26_27",
+      "label": "A/W 26/27"
+    },
+    {
+      "id": "ss_26",
+      "label": "S/S 26"
+    },
+    {
+      "id": "aw_25_26",
+      "label": "A/W 25/26"
+    },
+    {
+      "id": "pre_fall_25",
+      "label": "Pre-Fall 25"
+    },
+    {
+      "id": "ss_25",
+      "label": "S/S 25"
+    },
+    {
+      "id": "pre_summer_25",
+      "label": "Pre-Summer 25"
+    },
+    {
+      "id": "aw_24_25",
+      "label": "A/W 24/25"
+    }
+  ],
+  "industry_filters": [
+    {
+      "id": "city_by_city",
+      "label": "City by City"
+    },
+    {
+      "id": "consumer_marketing_retail",
+      "label": "Consumer, Marketing & Retail"
+    },
+    {
+      "id": "fashion_design",
+      "label": "Fashion Design"
+    }
+  ],
+  "market_filters": [
+    {
+      "id": "womens",
+      "label": "Women's"
+    },
+    {
+      "id": "mens",
+      "label": "Men's"
+    },
+    {
+      "id": "youth",
+      "label": "Youth"
+    },
+    {
+      "id": "kids",
+      "label": "Kids"
+    }
+  ],
+  "generation_filters": [
+    {
+      "id": "alphas",
+      "label": "Alphas"
+    },
+    {
+      "id": "betas",
+      "label": "Betas"
+    },
+    {
+      "id": "gen_z",
+      "label": "Gen Z"
+    },
+    {
+      "id": "millennials",
+      "label": "Millennials"
+    },
+    {
+      "id": "gen_x",
+      "label": "Gen X"
+    },
+    {
+      "id": "boomers",
+      "label": "Boomers"
+    }
+  ],
+  "ReportTypes": [
+    {
+      "id": "name_t",
+      "label": "NAME T"
+    },
+    {
+      "id": "category_price_segmentation",
+      "label": "Category&PriceSegmentation"
+    },
+    {
+      "id": "monthly_snapshots",
+      "label": "MonthlySnapshots"
+    },
+    {
+      "id": "retailer_floorpad_mapping",
+      "label": "RetailerFloorpadMapping"
+    },
+    {
+      "id": "retailer_reviews",
+      "label": "RetailerReviews"
+    },
+    {
+      "id": "sales_and_performance",
+      "label": "SalesAndPerformance"
+    },
+    {
+      "id": "social_media_reports",
+      "label": "SocialMediaReports"
+    },
+    {
+      "id": "trendalytics",
+      "label": "Trendalytics"
+    },
+    {
+      "id": "trend_growth_reports",
+      "label": "TrendGrowthReports"
+    },
+    {
+      "id": "wgsn",
+      "label": "WGSN"
+    }
+  ]
+}

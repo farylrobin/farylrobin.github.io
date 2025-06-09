@@ -187,6 +187,11 @@ document.getElementById('promptForm').addEventListener('submit', async e => {
   const rows = document.querySelectorAll('#promptTable tbody tr');
   const fd = new FormData();
   const userHandle = userHandleInput ? userHandleInput.value.trim() : '';
+  if (!userHandle) {
+    document.getElementById('result').textContent = 'User handle (email) is required.';
+    resetSubmitBtn();
+    return;
+  }
   if (userHandle) {
     fd.append('userEmail', `${userHandle}@farylrobin.com`);
   }

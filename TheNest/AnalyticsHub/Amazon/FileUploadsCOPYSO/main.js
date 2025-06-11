@@ -6,7 +6,7 @@ const DROPZONE_IDENTIFIERS = [
   "Reviews"
 ];
 const N8N_WEBHOOK_URL =
-  "https://farylrobin.app.n8n.cloud/webhook/4d30abde-69b0-4ba4-8f48-62963667fccc";
+  "http://localhost:5678/webhook/b719d445-676f-42fd-af07-961174a5b08e";
 /* -------------------------------- */
 
 /* ------------ DOM refs ---------- */

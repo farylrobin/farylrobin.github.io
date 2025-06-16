@@ -6,7 +6,7 @@ const DROPZONE_IDENTIFIERS = [
   "Reviews"
 ];
 const N8N_WEBHOOK_URL =
-  "http://localhost:5678/webhook/b719d445-676f-42fd-af07-961174a5b08e";
+  "http://54.167.120.123:5879/webhook/5eebc53d-4730-4608-af79-76f6af686d94";
 /* -------------------------------- */
 
 /* ------------ DOM refs ---------- */

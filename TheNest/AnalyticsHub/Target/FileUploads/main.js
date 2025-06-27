@@ -5,7 +5,7 @@ const DROPZONE_IDENTIFIERS = [
   "Target Sales Plan"
 ];
 const N8N_WEBHOOK_URL =
-  "https://farylrobin.app.n8n.cloud/webhook/4d30abde-69b0-4ba4-8f48-62963667fccc";
+  "https://farylrobin.app.n8n.cloud/webhook/93dae95b-c2ce-4b19-94a2-603469c84cb4";
 /* -------------------------------- */
 
 /* ------------ DOM refs ---------- */

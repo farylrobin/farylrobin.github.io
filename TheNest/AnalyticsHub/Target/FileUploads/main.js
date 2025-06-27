@@ -1,3 +1,5 @@
+// Log to confirm script is executing
+console.log("Main.js loaded");
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
   "Target Sales RAW",
@@ -88,9 +90,11 @@ let seasonsList = [];
 async function loadSeasons() {
   try {
     const res = await fetch(SEASON_JSON_URL);
+    console.log("Fetched season list:", res);
     const data = await res.json();
     seasonsList = data.seasons || [];
     populateSeasonDropdown();
+    console.log("Season list loaded:", seasonsList);
   } catch (err) {
     console.error("Failed to load season list", err);
   }

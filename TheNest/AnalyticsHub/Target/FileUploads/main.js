@@ -78,7 +78,12 @@ newSeasonContainer.appendChild(addSeasonBtn);
 seasonControls.appendChild(newSeasonContainer);
 
 // Insert all season UI right above the dropzone grid
-document.body.insertBefore(seasonControls, dropzoneGrid);
+if (dropzoneGrid && dropzoneGrid.parentNode) {
+  dropzoneGrid.parentNode.insertBefore(seasonControls, dropzoneGrid);
+} else {
+  console.warn("dropzoneGrid parent not found; appending seasonControls to body");
+  document.body.appendChild(seasonControls);
+}
 /* --------------------------------------- */
 
 let filesByDropzone = {};

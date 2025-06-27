@@ -1,5 +1,7 @@
 // Log to confirm script is executing
 console.log("Main.js loaded");
+const APP_VERSION = "1.1.0";
+console.log(`Main.js version: ${APP_VERSION}`);
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
   "Target Sales RAW",
@@ -77,13 +79,18 @@ newSeasonContainer.appendChild(newSeasonInput);
 newSeasonContainer.appendChild(addSeasonBtn);
 seasonControls.appendChild(newSeasonContainer);
 
-// Insert all season UI right above the dropzone grid
-if (dropzoneGrid && dropzoneGrid.parentNode) {
-  dropzoneGrid.parentNode.insertBefore(seasonControls, dropzoneGrid);
-} else {
-  console.warn("dropzoneGrid parent not found; appending seasonControls to body");
-  document.body.appendChild(seasonControls);
+// Mount seasonControls only after the DOM is ready *and* dropzoneGrid exists
+function mountSeasonControls() {
+  const liveGrid = document.getElementById("dropzoneGrid");
+  if (liveGrid && liveGrid.parentNode) {
+    console.log("✅ Inserting seasonControls before dropzoneGrid");
+    liveGrid.parentNode.insertBefore(seasonControls, liveGrid);
+  } else {
+    console.warn("⚠️ dropzoneGrid not found yet, retrying in 100 ms…");
+    setTimeout(mountSeasonControls, 100); // try again shortly
+  }
 }
+window.addEventListener("DOMContentLoaded", mountSeasonControls);
 /* --------------------------------------- */
 
 let filesByDropzone = {};

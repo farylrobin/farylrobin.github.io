@@ -6,6 +6,7 @@ const DROPZONE_IDENTIFIERS = [
 ];
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/93dae95b-c2ce-4b19-94a2-603469c84cb4";
+const SEASON_JSON_URL = "assets/SeasonDropdownList.json";
 /* -------------------------------- */
 
 /* ------------ DOM refs ---------- */
@@ -29,7 +30,114 @@ const successBox = document.getElementById("successBox");
 const loadingBox = document.getElementById("loadingBox");
 /* -------------------------------- */
 
+/* ------------ Season Controls ---------- */
+// Container for all season‑related UI
+const seasonControls = document.createElement("div");
+seasonControls.id = "seasonControls";
+seasonControls.className = "season-controls";
+
+// Dropdown to choose whether we’re using an existing season or adding a new one
+const seasonModeSelect = document.createElement("select");
+seasonModeSelect.id = "seasonModeSelect";
+["existing", "new"].forEach((val) => {
+  const opt = document.createElement("option");
+  opt.value = val;
+  opt.textContent = val === "existing" ? "Existing" : "Add New Season";
+  seasonModeSelect.appendChild(opt);
+});
+
+const modeLabel = document.createElement("label");
+modeLabel.textContent = "Season Mode: ";
+modeLabel.appendChild(seasonModeSelect);
+seasonControls.appendChild(modeLabel);
+
+// Dropdown for selecting an existing season (populated from JSON)
+const seasonSelectLabel = document.createElement("label");
+seasonSelectLabel.textContent = "Season: ";
+seasonSelectLabel.style.display = "none";
+
+const seasonSelect = document.createElement("select");
+seasonSelect.id = "seasonSelect";
+seasonSelectLabel.appendChild(seasonSelect);
+seasonControls.appendChild(seasonSelectLabel);
+
+// UI for adding a brand‑new season
+const newSeasonContainer = document.createElement("div");
+newSeasonContainer.style.display = "none";
+
+const newSeasonInput = document.createElement("input");
+newSeasonInput.type = "text";
+newSeasonInput.placeholder = "Enter new season";
+
+const addSeasonBtn = document.createElement("button");
+addSeasonBtn.type = "button";
+addSeasonBtn.textContent = "Add to Season List";
+
+newSeasonContainer.appendChild(newSeasonInput);
+newSeasonContainer.appendChild(addSeasonBtn);
+seasonControls.appendChild(newSeasonContainer);
+
+// Insert all season UI right above the dropzone grid
+document.body.insertBefore(seasonControls, dropzoneGrid);
+/* --------------------------------------- */
+
 let filesByDropzone = {};
+let seasonsList = [];
+
+/* ------ Season helpers ------ */
+async function loadSeasons() {
+  try {
+    const res = await fetch(SEASON_JSON_URL);
+    const data = await res.json();
+    seasonsList = data.seasons || [];
+    populateSeasonDropdown();
+  } catch (err) {
+    console.error("Failed to load season list", err);
+  }
+}
+
+function populateSeasonDropdown() {
+  seasonSelect.innerHTML = "";
+  seasonsList.forEach((s) => {
+    const opt = document.createElement("option");
+    opt.value = s.id;
+    opt.textContent = s.name;
+    seasonSelect.appendChild(opt);
+  });
+}
+/* ---------------------------- */
+
+// Toggle UI between Existing and Add New Season modes
+seasonModeSelect.addEventListener("change", () => {
+  const isExisting = seasonModeSelect.value === "existing";
+  seasonSelectLabel.style.display = isExisting ? "" : "none";
+  newSeasonContainer.style.display = isExisting ? "none" : "";
+});
+
+// Handle adding a new season
+addSeasonBtn.addEventListener("click", () => {
+  const name = newSeasonInput.value.trim();
+  if (!name) {
+    alert("Please enter a season name first.");
+    return;
+  }
+  const maxId = Math.max(0, ...seasonsList.map((s) => s.id));
+  const newSeason = { id: maxId + 1, name };
+  seasonsList.push(newSeason);
+  populateSeasonDropdown();
+
+  // Reset UI
+  seasonModeSelect.value = "existing";
+  seasonModeSelect.dispatchEvent(new Event("change"));
+  newSeasonInput.value = "";
+
+  // Notify backend so it can update SeasonDropdownList.json
+  fetch(N8N_WEBHOOK_URL + "?action=addSeason", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newSeason)
+  }).catch(console.error);
+});
 
 /* --- create a single drop‑zone --- */
 function createDropzone(identifier) {
@@ -141,6 +249,12 @@ submitButton.addEventListener("click", async () => {
     });
   });
   formData.append("metadata", JSON.stringify(fileMetadata));
+  // Attach chosen season
+  const chosenSeason =
+    seasonModeSelect.value === "existing"
+      ? seasonSelect.value
+      : newSeasonInput.value.trim();
+  formData.append("season", chosenSeason);
 
   try {
     await fetch(N8N_WEBHOOK_URL, { method: "POST", body: formData });
@@ -172,3 +286,4 @@ submitButton.addEventListener("click", async () => {
 
 /* ---------- init ---------- */
 DROPZONE_IDENTIFIERS.forEach(createDropzone);
+loadSeasons();

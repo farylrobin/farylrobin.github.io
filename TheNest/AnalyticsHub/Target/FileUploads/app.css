@@ -159,3 +159,41 @@ body {
   border: none;
   display: block;
 }
+
+
+/* --- Season Controls --- */
+.season-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 20px;
+}
+
+.season-controls label {
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+.season-controls select,
+.season-controls input[type="text"] {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.season-controls button {
+  padding: 0.4rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #0077ff; /* brand accent */
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.season-controls button:hover {
+  background: #005fcc;
+}

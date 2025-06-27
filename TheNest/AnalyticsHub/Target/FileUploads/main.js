@@ -56,7 +56,7 @@ seasonControls.appendChild(modeLabel);
 // Dropdown for selecting an existing season (populated from JSON)
 const seasonSelectLabel = document.createElement("label");
 seasonSelectLabel.textContent = "Season: ";
-seasonSelectLabel.style.display = "none";
+// seasonSelectLabel.style.display = "none";
 
 const seasonSelect = document.createElement("select");
 seasonSelect.id = "seasonSelect";
@@ -104,6 +104,8 @@ async function loadSeasons() {
     const data = await res.json();
     seasonsList = data.seasons || [];
     populateSeasonDropdown();
+    // Ensure correct toggle state after seasons load
+    seasonModeSelect.dispatchEvent(new Event("change"));
     console.log("Season list loaded:", seasonsList);
   } catch (err) {
     console.error("Failed to load season list", err);

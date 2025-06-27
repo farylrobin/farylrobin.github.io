@@ -90,7 +90,6 @@ function mountSeasonControls() {
     setTimeout(mountSeasonControls, 100); // try again shortly
   }
 }
-window.addEventListener("DOMContentLoaded", mountSeasonControls);
 /* --------------------------------------- */
 
 let filesByDropzone = {};
@@ -301,5 +300,14 @@ submitButton.addEventListener("click", async () => {
 });
 
 /* ---------- init ---------- */
+async function init() {
+  // Ensure the season list is fetched before rendering any controls
+  await loadSeasons();
+  mountSeasonControls();
+}
+
+// Create the drop‑zones immediately; they don't depend on seasons
 DROPZONE_IDENTIFIERS.forEach(createDropzone);
-loadSeasons();
+
+// Kick off the season-aware UI once the DOM is ready
+window.addEventListener("DOMContentLoaded", init);

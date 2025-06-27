@@ -147,10 +147,10 @@ addSeasonBtn.addEventListener("click", () => {
   newSeasonInput.value = "";
 
   // Notify backend so it can update SeasonDropdownList.json
-  fetch(N8N_WEBHOOK_URL + "?action=addSeason", {
+  fetch(N8N_WEBHOOK_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newSeason)
+    body: JSON.stringify({ ...newSeason, addNewSeason: true })
   }).catch(console.error);
 });
 
@@ -270,6 +270,7 @@ submitButton.addEventListener("click", async () => {
       ? seasonSelect.value
       : newSeasonInput.value.trim();
   formData.append("season", chosenSeason);
+  formData.append("addNewSeason", seasonModeSelect.value === "new" ? "true" : "false");
 
   try {
     await fetch(N8N_WEBHOOK_URL, { method: "POST", body: formData });

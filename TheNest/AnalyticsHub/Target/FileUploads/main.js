@@ -8,7 +8,7 @@ const DROPZONE_IDENTIFIERS = [
 ];
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/93dae95b-c2ce-4b19-94a2-603469c84cb4";
-const SEASON_JSON_URL = "assets/SeasonDropdownList.json";
+const SEASON_JSON_URL = "./assets/SeasonDropdownList.json";
 /* -------------------------------- */
 
 /* ------------ DOM refs ---------- */
@@ -18,12 +18,10 @@ if (!dropzoneGrid) {
   dropzoneGrid = document.createElement("div");
   dropzoneGrid.id = "dropzoneGrid";
   dropzoneGrid.className = "dropzone-grid";
-  const header = document.querySelector("h1");
-  if (header && header.parentNode) {
-    header.parentNode.insertBefore(dropzoneGrid, header.nextSibling);
-  } else {
-    document.body.prepend(dropzoneGrid);
-  }
+
+  // Insert into <main> if present, otherwise append to body
+  const fallbackTarget = document.querySelector("main") || document.body;
+  fallbackTarget.appendChild(dropzoneGrid);
 }
 
 const submitButton = document.getElementById("submitButton");

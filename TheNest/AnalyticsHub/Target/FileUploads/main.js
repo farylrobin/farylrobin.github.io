@@ -150,7 +150,12 @@ addSeasonBtn.addEventListener("click", () => {
   fetch(N8N_WEBHOOK_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...newSeason, addNewSeason: true })
+    body: JSON.stringify({
+      ...newSeason,
+      seasonId: newSeason.id,
+      seasonName: newSeason.name,
+      addNewSeason: true
+    })
   }).catch(console.error);
 });
 
@@ -269,7 +274,22 @@ submitButton.addEventListener("click", async () => {
     seasonModeSelect.value === "existing"
       ? seasonSelect.value
       : newSeasonInput.value.trim();
+
+  // Derive explicit seasonId and seasonName for the webhook
+  const chosenSeasonId =
+    seasonModeSelect.value === "new"
+      ? newSeasonInput.value.trim().replace(/\s+/g, "-").toLowerCase()
+      : seasonSelect.value;
+
+  const chosenSeasonName =
+    seasonModeSelect.value === "new"
+      ? newSeasonInput.value.trim()
+      : seasonSelect.options[seasonSelect.selectedIndex].text;
+
   formData.append("season", chosenSeason);
+  formData.append("seasonId", chosenSeasonId);
+  formData.append("seasonName", chosenSeasonName);
+
   formData.append("addNewSeason", seasonModeSelect.value === "new" ? "true" : "false");
 
   try {

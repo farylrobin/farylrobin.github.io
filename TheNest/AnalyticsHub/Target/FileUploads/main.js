@@ -264,7 +264,11 @@ submitButton.addEventListener("click", async () => {
   formData.append("addNewSeason", seasonModeSelect.value === "new" ? "true" : "false");
 
   try {
-    await fetch(N8N_WEBHOOK_URL, { method: "POST", body: formData });
+    await fetch(N8N_WEBHOOK_URL, {
+      method: "POST",
+      mode: "no-cors", // avoid CORS pre‑flight; fire‑and‑forget
+      body: formData
+    });
 
     const timestamp = new Date().toLocaleString("en-US", {
       month: "long",

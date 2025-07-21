@@ -9,7 +9,7 @@ const DROPZONE_IDENTIFIERS = [
   "Target Sales Plan"
 ];
 const N8N_WEBHOOK_URL =
-  "https://farylrobin.app.n8n.cloud/webhook/3af73d31-9548-4ecb-9cb1-cac31b58e534";
+  "https://farylrobin.app.n8n.cloud/webhook/2ed0eff0-b5c1-4911-a107-5d08da852149";
 const SEASON_JSON_URL = "./assets/SeasonDropdownList.json";
 /* -------------------------------- */
 
@@ -71,12 +71,7 @@ const newSeasonInput = document.createElement("input");
 newSeasonInput.type = "text";
 newSeasonInput.placeholder = "Enter new season";
 
-const addSeasonBtn = document.createElement("button");
-addSeasonBtn.type = "button";
-addSeasonBtn.textContent = "Add to Season List";
-
 newSeasonContainer.appendChild(newSeasonInput);
-newSeasonContainer.appendChild(addSeasonBtn);
 seasonControls.appendChild(newSeasonContainer);
 
 // Mount seasonControls only after the DOM is ready *and* dropzoneGrid exists
@@ -127,36 +122,6 @@ seasonModeSelect.addEventListener("change", () => {
   const isExisting = seasonModeSelect.value === "existing";
   seasonSelectLabel.style.display = isExisting ? "" : "none";
   newSeasonContainer.style.display = isExisting ? "none" : "";
-});
-
-// Handle adding a new season
-addSeasonBtn.addEventListener("click", () => {
-  const name = newSeasonInput.value.trim();
-  if (!name) {
-    alert("Please enter a season name first.");
-    return;
-  }
-  const maxId = Math.max(0, ...seasonsList.map((s) => s.id));
-  const newSeason = { id: maxId + 1, name };
-  seasonsList.push(newSeason);
-  populateSeasonDropdown();
-
-  // Reset UI
-  seasonModeSelect.value = "existing";
-  seasonModeSelect.dispatchEvent(new Event("change"));
-  newSeasonInput.value = "";
-
-  // Notify backend so it can update SeasonDropdownList.json
-  fetch(N8N_WEBHOOK_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      ...newSeason,
-      seasonId: newSeason.id,
-      seasonName: newSeason.name,
-      addNewSeason: true
-    })
-  }).catch(console.error);
 });
 
 /* --- create a single drop‑zone --- */
@@ -239,6 +204,12 @@ submitButton.addEventListener("click", async () => {
   if (allFiles.length === 0) {
     errorBox.textContent = "No files selected to upload.";
     errorBox.style.display = "block";
+    return;
+  }
+  if (seasonModeSelect.value === "new" && !newSeasonInput.value.trim()) {
+    errorBox.textContent = "Please enter a season name.";
+    errorBox.style.display = "block";
+    loadingBox.style.display = "none";
     return;
   }
 

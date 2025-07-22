@@ -240,7 +240,7 @@ submitButton.addEventListener("click", async () => {
     });
   });
   formData.append("metadata", JSON.stringify(fileMetadata));
-  // Attach chosen season
+  // Attach season metadata
   const chosenSeason =
     seasonModeSelect.value === "existing"
       ? seasonSelect.value
@@ -257,11 +257,9 @@ submitButton.addEventListener("click", async () => {
       ? newSeasonInput.value.trim()
       : seasonSelect.options[seasonSelect.selectedIndex].text;
 
-  formData.append("season", chosenSeason);
-  formData.append("seasonId", chosenSeasonId);
-  formData.append("seasonName", chosenSeasonName);
-
-  formData.append("addNewSeason", seasonModeSelect.value === "new" ? "true" : "false");
+  formData.append("season_id", chosenSeasonId);
+  formData.append("season_name", chosenSeasonName);
+  formData.append("add_new_season", seasonModeSelect.value === "new" ? "true" : "false");
 
   try {
     await fetch(N8N_WEBHOOK_URL, {

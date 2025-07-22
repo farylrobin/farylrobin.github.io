@@ -2,6 +2,17 @@
 console.log("Main.js loaded");
 const FORM_VERSION = "V2.0";
 window.FORM_VERSION = FORM_VERSION;
+/* ---------- render version label ---------- */
+function renderVersionTag() {
+  const tag = document.getElementById("versionTag");
+  if (tag) tag.textContent = `v ${FORM_VERSION}`;
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", renderVersionTag);
+} else {
+  renderVersionTag();
+}
 console.log(`Main.js version: ${FORM_VERSION}`);
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [

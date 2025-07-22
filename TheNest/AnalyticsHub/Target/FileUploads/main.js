@@ -261,7 +261,7 @@ submitButton.addEventListener("click", async () => {
   // Derive explicit seasonId and seasonName for the webhook
   const chosenSeasonId =
     seasonModeSelect.value === "new"
-      ? newSeasonInput.value.trim().replace(/\s+/g, "-").toLowerCase()
+      ? ""
       : seasonSelect.value;
 
   const chosenSeasonName =

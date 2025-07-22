@@ -1,6 +1,6 @@
 // Log to confirm script is executing
 console.log("Main.js loaded");
-const FORM_VERSION = "V2.0";
+const FORM_VERSION = "2.0";
 window.FORM_VERSION = FORM_VERSION;
 /* ---------- render version label ---------- */
 function renderVersionTag() {

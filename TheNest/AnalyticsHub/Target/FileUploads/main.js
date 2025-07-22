@@ -1,7 +1,8 @@
 // Log to confirm script is executing
 console.log("Main.js loaded");
-const APP_VERSION = "1.1.0";
-console.log(`Main.js version: ${APP_VERSION}`);
+const FORM_VERSION = "V2.0";
+window.FORM_VERSION = FORM_VERSION;
+console.log(`Main.js version: ${FORM_VERSION}`);
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
   "Target Sales RAW",

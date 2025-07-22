@@ -12,6 +12,15 @@ body {
   padding: 30px;
   border-radius: 0;
   box-shadow: none;
+  position: relative; /* so the version tag can be absolutely positioned */
+}
+
+.version-tag {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 0.75rem;
+  color: #666;
 }
 
 

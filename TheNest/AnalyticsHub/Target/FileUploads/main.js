@@ -1,19 +1,27 @@
 // Log to confirm script is executing
 console.log("Main.js loaded");
-const FORM_VERSION = "2.1";
+// Dynamic version fetch from package.json
+let FORM_VERSION = "";
 window.FORM_VERSION = FORM_VERSION;
-/* ---------- render version label ---------- */
+
 function renderVersionTag() {
   const tag = document.getElementById("versionTag");
   if (tag) tag.textContent = `v ${FORM_VERSION}`;
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", renderVersionTag);
-} else {
+(async () => {
+  try {
+    const res = await fetch('/package.json');
+    const pkg = await res.json();
+    FORM_VERSION = pkg.version;
+  } catch {
+    FORM_VERSION = "unknown";
+  }
+  window.FORM_VERSION = FORM_VERSION;
+  // Render the version label once fetched
   renderVersionTag();
-}
-console.log(`Main.js version: ${FORM_VERSION}`);
+  console.log(`Main.js version: ${FORM_VERSION}`);
+})();
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
   "Target Sales RAW",

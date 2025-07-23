@@ -12,9 +12,11 @@ function renderVersionTag() {
 (async () => {
   try {
     const res = await fetch('/package.json');
+    if (!res.ok) throw new Error(`Failed to fetch package.json: ${res.status}`);
     const pkg = await res.json();
     FORM_VERSION = pkg.version;
-  } catch {
+  } catch (err) {
+    console.error("Failed to load package version:", err);
     FORM_VERSION = "unknown";
   }
   window.FORM_VERSION = FORM_VERSION;

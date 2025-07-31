@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --T1: 32px;
+      --T2: 13px;
+      --T3: 11px;
+      --R: 4vh;
+      --accent-color: #000000;
+      --overlay-bg: #000000F2;
+      --handle-bg: #000000CC;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8f8f8;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 0 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .title-container {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 52px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .outline-text {
+      color: transparent;
+      -webkit-text-stroke: 1px #ccc;
+    }
+
+    .solid-text {
+      color: #000;
+    }
+
+    .date-text {
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .content-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+      padding: 20px;
+    }
+
+    .post-container {
+      display: flex;
+      gap: 16px;
+    }
+
+    .video-card {
+      flex: 1;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-content {
+      position: relative;
+      width: 100%;
+    }
+
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      padding-bottom: 177.78%;
+      background: #f0f0f0;
+    }
+
+    .video-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      object-fit: cover;
+    }
+
+    .metrics-container {
+      width: 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 40px;
+    }
+
+    .source-text {
+      font-family: 'Raleway', sans-serif;
+      color: #666;
+      font-size: var(--T3);
+      margin-bottom: 8px;
+    }
+
+    .platform-name {
+      font-weight: 700;
+    }
+
+    .metric-pill {
+      background: var(--accent-color);
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: 'Raleway', sans-serif;
+      font-size: var(--T3);
+      font-weight: 400;
+      line-height: 1.4;
+      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-value {
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .hashtags {
+      margin-top: 12px;
+      font-family: 'Raleway', sans-serif;
+      font-size: var(--T3);
+      color: #666;
+      line-height: 1.6;
+      word-wrap: break-word;
+    }
+
+    .post-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(5px);
+      z-index: 10;
+    }
+
+    .rank {
+      background: var(--accent-color);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: var(--T3);
+    }
+
+    .handle {
+      background: var(--handle-bg);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: var(--T3);
+      text-transform: uppercase;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+    }
+
+    .right-panel-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--accent-color);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      font-size: var(--T2);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .right-panel-toggle img {
+      height: 16px;
+      width: auto;
+      max-width: 100px;
+      object-fit: contain;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--overlay-bg);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 90vw;
+      max-height: 90vh;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+
+    .popup-header {
+      background-color: var(--accent-color);
+      margin: -24px -24px 16px -24px;
+      padding: 12px 20px;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: sticky;
+      top: -24px;
+      z-index: 20;
+    }
+
+    .popup-header img {
+      height: 16px;
+      width: auto;
+      max-width: 100px;
+      object-fit: contain;
+    }
+
+    .popup-header span {
+      color: white;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      font-size: var(--T2);
+      font-weight: 700;
+    }
+
+    .popup-section {
+      background: #f5f5f5;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .popup-section h2 {
+      color: black;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      font-size: 18px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 30;
+    }
+
+    .show {
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .title {
+        font-size: 36px;
+      }
+
+      .content-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+
+      .popup-content {
+        padding: 16px;
+        width: 95%;
+      }
+
+      .popup-header {
+        margin: -16px -16px 12px -16px;
+        padding: 10px 16px;
+      }
+      
+      .right-panel-toggle {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title-container">
+      <h1 class="title">
+        <span class="outline-text">SOCIAL TRENDS</span>
+        <span class="solid-text">GLADIATOR SANDALS</span>
+      </h1>
+      <span class="date-text">DATA WAS PULLED ON 07/31/2025 9:24 am EST</span>
+    </div>
+    <div class="right-panel-toggle" id="keyTakeawaysBtn">
+      CLICK FOR <img src="https://github.com/farylrobin/farylrobin.github.io/blob/master/social_presentations/farylrobin_social_snapshot_11_26_2024_v2/assets/FR_LOGO_WHITE.png?raw=true" alt="Faryl Robin Logo" class="logo" style="height: 20px;"> SUPPORTING INSIGHTS
+    </div>
+  </div>
+  <div class="content-container">
+    <div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7503195176534330632?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#1</div>
+                    <div class="handle">@momopaipai</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">21.80%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">4,623</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">20</span></div>
+            <div class="hashtags">#yum #girlhood #livingthedream #code #bohovibe #gladiatorsandals #viraltiktok</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7501880518917508382?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#2</div>
+                    <div class="handle">@arianathrifts</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">10.95%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">3,972</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">59</span></div>
+            <div class="hashtags">#gladiatorsandals #thrifted #2010sfashion</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7516954207237278998?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#3</div>
+                    <div class="handle">@titiguareschi</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">10.20%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">65</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">6</span></div>
+            <div class="hashtags">#fyp #fashion #ootd #gladiatorsandals #sandals #summer #styleinspo</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7507688738705722670?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#4</div>
+                    <div class="handle">@juliaquang</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">8.64%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">37,000</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">75</span></div>
+            <div class="hashtags">#shoe #unboxing</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7516969411463499039?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#5</div>
+                    <div class="handle">@courtneysnelll</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">2.86%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">18,300</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">185</span></div>
+            <div class="hashtags">#summershoe #sandal #summer #teva</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7522107048104955144?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#6</div>
+                    <div class="handle">@izzipoopi</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">2.29%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">38,800</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">71</span></div>
+            
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DJmyyzXpcS2/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#7</div>
+                    <div class="handle">@browngirlbeautynyc</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">2.28%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">347</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">79</span></div>
+            <div class="hashtags">#ltkseasonal #ltkfindsunder100 #ltkstyletip #SpringStyle #SummerStyle #HowToStyle #EffortlessFashion #GladiatorSandals #ChicOnABudget #BlackGirlStyle ...</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DJJ13QORvge/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#8</div>
+                    <div class="handle">@fomenkojulli</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">2.18%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">9,953</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">133</span></div>
+            
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7532161137589194015?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#9</div>
+                    <div class="handle">@benulus</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.78%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">9,298</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">110</span></div>
+            <div class="hashtags">#benulustyle #maximaliststyle</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/C7KxHZiPs21/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#10</div>
+                    <div class="handle">@indybelle_</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.58%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">5,149</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">2,370</span></div>
+            <div class="hashtags">#fashion #influencer #outfitideas #summer #vacation #linenoveralls #gladiatorsandals #rattanbag #amazonpartner #looksforless</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/C7CHAtprgfm/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#11</div>
+                    <div class="handle">@chicbyallyb</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.24%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">362</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">3</span></div>
+            <div class="hashtags">#chicbyallyb #grwm #ootd #vacationootd #romper #onlineboutique #shopsmallbusiness #gladiatorsandals #fashion #summerfashion ...</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe tiktok-iframe" src="https://www.tiktok.com/embed/v2/7483579756642946334?autoplay=0&mute=1&playsinline=0" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen allow="encrypted-media" loading="lazy" playsinline="false" webkit-playsinline="false" webkitallowfullscreen mozallowfullscreen></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#12</div>
+                    <div class="handle">@alishakozlin</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">tiktok</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.17%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">104</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">23</span></div>
+            <div class="hashtags">#gladiator #gladiatorsandals #summer #summerinchicago #chicago #chicagofashion #ootd</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DLTC7GqxlzP/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#13</div>
+                    <div class="handle">@thezoereport</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.17%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">1,625</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">68</span></div>
+            
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DLpYNgrolX7/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#14</div>
+                    <div class="handle">@threadsstyling</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.15%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">1,488</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">20</span></div>
+            <div class="hashtags">#shotbythreads</div>
+        </div>
+    </div>
+<div class="post-container">
+        <div class="video-card">
+            <div class="video-content">
+                <div class="video-thumbnail">
+                    <iframe class="video-iframe instagram-iframe" src="https://www.instagram.com/p/DIg2_35s-ge/embed" style="width: 100%; height: 600px;" frameborder="0" scrolling="yes" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="post-header">
+                    <div class="rank">#15</div>
+                    <div class="handle">@emiliopucci</div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-container">
+            <div class="source-text">Source: <span class="platform-name">instagram</span></div>
+            <div class="metric-pill">Engagement <span class="metric-value">0.06%</span></div>
+            <div class="metric-pill">Likes <span class="metric-value">1,178</span></div>
+            <div class="metric-pill">Comments <span class="metric-value">8</span></div>
+            <div class="hashtags">#PucciMarmo</div>
+        </div>
+    </div>
+  </div>
+  <div class="popup-overlay" id="keyTakeawaysPopup">
+    <div class="popup-content">
+      <button class="close-button" onclick="closePopup()">×</button>
+      <div class="popup-header">
+        <img src="https://github.com/farylrobin/farylrobin.github.io/blob/master/social_presentations/farylrobin_social_snapshot_11_26_2024_v2/assets/FR_LOGO_WHITE.png?raw=true" alt="Faryl Robin Logo" class="logo" style="height: 20px;">
+        <span>SUPPORTING INSIGHTS</span>
+      </div>
+      <div class="popup-section" style="max-width: 1400px; margin: 0 auto; padding: 20px;">
+            <h2 style="text-align: center; margin-bottom: 24px; font-family: 'Oswald', sans-serif; font-weight: 900; text-transform: uppercase;">
+                SUPPORTING INSIGHTS
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                
+        <div style="
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        ">
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-bottom: 75%;
+                margin-bottom: 8px;
+                overflow: hidden;
+                border-radius: 8px;
+            ">
+                <img 
+                    src="https://app.box.com/shared/static/oqkz9i8u2oye7m87w78lwcyveeodys6b" 
+                    alt="Content Image" 
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                        object-position: center;
+                        transition: transform 0.3s ease;
+                    "
+                    onmouseover="this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.transform='scale(1)'"
+                />
+            </div>
+            <p style="
+                font-family: 'Oswald', sans-serif;
+                font-size: 14px;
+                font-weight: 900;
+                color: #333;
+                text-align: center;
+                margin: 0;
+                line-height: 1.4;
+                text-transform: uppercase;
+            ">
+                SOURCE: WGSN
+            </p>
+        </div>
+    
+        <div style="
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        ">
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-bottom: 75%;
+                margin-bottom: 8px;
+                overflow: hidden;
+                border-radius: 8px;
+            ">
+                <img 
+                    src="https://app.box.com/shared/static/c7mfufv4i4yrfeep4qe8mspo2jkga3jc" 
+                    alt="Content Image" 
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                        transition: transform 0.3s ease;
+                    "
+                    onmouseover="this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.transform='scale(1)'"
+                />
+            </div>
+            <p style="
+                font-family: 'Oswald', sans-serif;
+                font-size: 14px;
+                font-weight: 900;
+                color: #333;
+                text-align: center;
+                margin: 0;
+                line-height: 1.4;
+                text-transform: uppercase;
+            ">
+                <a href="https://www.thezoereport.com/fashion/gladiator-sandals" 
+                        target="_blank" 
+                        style="
+                            color: #0066cc;
+                            text-decoration: none;
+                            transition: color 0.3s ease;
+                            font-weight: 900;
+                        " 
+                        onmouseover="this.style.color='#004499'" 
+                        onmouseout="this.style.color='#0066cc'"
+                    >
+                        CLICK TO ACCESS ARTICLE
+                    </a>
+            </p>
+        </div>
+    
+        <div style="
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        ">
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-bottom: 75%;
+                margin-bottom: 8px;
+                overflow: hidden;
+                border-radius: 8px;
+            ">
+                <img 
+                    src="https://app.box.com/shared/static/d0tw5bo5gs4qolx824jpi9mn3g86wzlh" 
+                    alt="Content Image" 
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                        transition: transform 0.3s ease;
+                    "
+                    onmouseover="this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.transform='scale(1)'"
+                />
+            </div>
+            <p style="
+                font-family: 'Oswald', sans-serif;
+                font-size: 14px;
+                font-weight: 900;
+                color: #333;
+                text-align: center;
+                margin: 0;
+                line-height: 1.4;
+                text-transform: uppercase;
+            ">
+                <a href="https://www.elle.com/fashion/shopping/g65382753/best-gladiator-sandals-for-women/" 
+                        target="_blank" 
+                        style="
+                            color: #0066cc;
+                            text-decoration: none;
+                            transition: color 0.3s ease;
+                            font-weight: 900;
+                        " 
+                        onmouseover="this.style.color='#004499'" 
+                        onmouseout="this.style.color='#0066cc'"
+                    >
+                        CLICK TO ACCESS ARTICLE
+                    </a>
+            </p>
+        </div>
+    
+        <div style="
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        ">
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-bottom: 75%;
+                margin-bottom: 8px;
+                overflow: hidden;
+                border-radius: 8px;
+            ">
+                <img 
+                    src="https://app.box.com/shared/static/26tckgdjt0t7zb86xbx0azhe8nbqc8hj" 
+                    alt="Content Image" 
+                    style="
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                        transition: transform 0.3s ease;
+                    "
+                    onmouseover="this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.transform='scale(1)'"
+                />
+            </div>
+            <p style="
+                font-family: 'Oswald', sans-serif;
+                font-size: 14px;
+                font-weight: 900;
+                color: #333;
+                text-align: center;
+                margin: 0;
+                line-height: 1.4;
+                text-transform: uppercase;
+            ">
+                <a href="https://www.vogue.com.au/fashion/trends/gladiator-sandal-trend/image-gallery/602f7c15d7c4db238272f7a107985f8b" 
+                        target="_blank" 
+                        style="
+                            color: #0066cc;
+                            text-decoration: none;
+                            transition: color 0.3s ease;
+                            font-weight: 900;
+                        " 
+                        onmouseover="this.style.color='#004499'" 
+                        onmouseout="this.style.color='#0066cc'"
+                    >
+                        CLICK TO ACCESS ARTICLE
+                    </a>
+            </p>
+        </div>
+    
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector('.right-panel-toggle').addEventListener('click', function() {
+      document.getElementById('keyTakeawaysPopup').classList.add('show');
+    });
+    function closePopup() {
+      document.getElementById('keyTakeawaysPopup').classList.remove('show');
+    }
+  </script>
+</body>
+</html>

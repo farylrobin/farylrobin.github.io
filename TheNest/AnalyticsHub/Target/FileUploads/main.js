@@ -26,9 +26,9 @@ function renderVersionTag() {
 })();
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
-  "Target Sales RAW",
-  "VA Buy Plan",
-  "Target Sales Plan"
+  { label: "Target Sales RAW", id: "target_sales" },
+  { label: "VA Buy Plan", id: "target_soft_commitments" },
+  { label: "Target Sales Plan", id: "target_forecast" }
 ];
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/5220dc45-a9fe-4934-a5d8-d908a6024868";
@@ -153,7 +153,7 @@ function createDropzone(identifier) {
 
   const title = document.createElement("h3");
   title.className = "dropzone-title";
-  title.textContent = identifier;
+  title.textContent = identifier.label;
 
   const dropzone = document.createElement("div");
   dropzone.className = "dropzone";
@@ -169,7 +169,7 @@ function createDropzone(identifier) {
   fileList.className = "staged-files";
   fileList.innerHTML = "<h4>Staged Files:</h4><ul></ul>";
 
-  filesByDropzone[identifier] = [];
+  filesByDropzone[identifier.id] = [];
 
   /* --- events --- */
   dropzone.addEventListener("click", () => input.click());
@@ -186,11 +186,11 @@ function createDropzone(identifier) {
   dropzone.addEventListener("drop", (e) => {
     e.preventDefault();
     dropzone.classList.remove("active");
-    handleFiles(identifier, e.dataTransfer.files, fileList);
+    handleFiles(identifier.id, e.dataTransfer.files, fileList);
   });
 
   input.addEventListener("change", () =>
-    handleFiles(identifier, input.files, fileList)
+    handleFiles(identifier.id, input.files, fileList)
   );
 
   /* --- assemble --- */
@@ -305,7 +305,7 @@ submitButton.addEventListener("click", async () => {
     /* reset UI */
     dropzoneGrid.innerHTML = "";
     filesByDropzone = {};
-    DROPZONE_IDENTIFIERS.forEach(createDropzone);
+    DROPZONE_IDENTIFIERS.forEach((dz) => createDropzone(dz));
     submitButton.disabled = true;
   } catch (err) {
     errorBox.textContent = "Upload failed";
@@ -323,7 +323,7 @@ async function init() {
 }
 
 // Create the drop‑zones immediately; they don't depend on seasons
-DROPZONE_IDENTIFIERS.forEach(createDropzone);
+DROPZONE_IDENTIFIERS.forEach((dz) => createDropzone(dz));
 
 // Kick off the season-aware UI once the DOM is ready
 window.addEventListener("DOMContentLoaded", init);

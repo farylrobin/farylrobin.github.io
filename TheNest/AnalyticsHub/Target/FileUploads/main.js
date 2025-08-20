@@ -1,6 +1,5 @@
 // Log to confirm script is executing
 console.log("Main.js loaded");
-// Dynamic version fetch from package.json
 let FORM_VERSION = "";
 window.FORM_VERSION = FORM_VERSION;
 
@@ -20,7 +19,6 @@ function renderVersionTag() {
     FORM_VERSION = "unknown";
   }
   window.FORM_VERSION = FORM_VERSION;
-  // Render the version label once fetched
   renderVersionTag();
   console.log(`Main.js version: ${FORM_VERSION}`);
 })();
@@ -320,6 +318,7 @@ async function init() {
   // Ensure the season list is fetched before rendering any controls
   await loadSeasons();
   mountSeasonControls();
+  renderVersionTag();
 }
 
 // Create the drop‑zones immediately; they don't depend on seasons

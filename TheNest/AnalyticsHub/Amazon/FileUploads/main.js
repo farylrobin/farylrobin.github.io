@@ -2,8 +2,7 @@
 const DROPZONE_IDENTIFIERS = [
   "amazon_inventory",
   "amazon_sales",
-  "amazon_forecast",
-  "amazon_reviews"
+  "amazon_forecast"
 ];
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/4d30abde-69b0-4ba4-8f48-62963667fccc";

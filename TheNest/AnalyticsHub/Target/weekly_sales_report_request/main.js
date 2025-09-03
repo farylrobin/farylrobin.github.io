@@ -301,7 +301,7 @@ formEl.addEventListener("submit", async (e) => {
     await fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      // mode: "no-cors", // uncomment if you hit CORS issues
+      mode: "no-cors",
       body: JSON.stringify(payload)
     });
 

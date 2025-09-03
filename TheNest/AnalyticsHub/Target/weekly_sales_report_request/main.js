@@ -240,7 +240,13 @@ const ACCOUNTS = [
   { id: 6, name: "draper james" }
 ];
 function fillAccounts(selectEl, accounts) {
-  selectEl.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
+  if (!selectEl) {
+    console.error("fillAccounts: selectEl is null/undefined");
+    return;
+  }
+  try {
+    selectEl.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
+  } catch (_) {}
   accounts.forEach(a => {
     const opt = document.createElement("option");
     opt.value = String(a.id);
@@ -248,7 +254,9 @@ function fillAccounts(selectEl, accounts) {
     selectEl.appendChild(opt);
   });
 }
-fillAccounts(accountEl, ACCOUNTS);
+if (accountEl) {
+  fillAccounts(accountEl, ACCOUNTS);
+}
 
 fillSelect(reportWeekEl, WEEK_OPTIONS);
 fillSelect(seasonStartEl, WEEK_OPTIONS);

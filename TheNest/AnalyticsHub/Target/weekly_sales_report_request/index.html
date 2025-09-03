@@ -1,32 +1,47 @@
-label, input, button, select, textarea {
-  font-family: "Raleway", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 10px;
-  display: block;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Weekly Report Request</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="brand-title">Weekly Report</div>
 
-input::placeholder, textarea::placeholder {
-  color: gray;
-}
+    <form id="reportForm" class="inputs" novalidate>
+      <label for="reportWeek">Report week</label>
+      <select id="reportWeek" required>
+        <option value="">Select week…</option>
+      </select>
 
-input {
-  background: #ecf0f3;
-  padding: 12px 20px;
-  font-size: 14px;
-  border-radius: 20px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px #ffffff;
-  border: none;
-  outline: none;
-}
+      <label for="seasonStart">Season start week</label>
+      <select id="seasonStart" required>
+        <option value="">Select week…</option>
+      </select>
 
-textarea {
-  background: #ecf0f3;
-  padding: 12px 20px;
-  min-height: 84px;
-  font-size: 14px;
-  border-radius: 20px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px #ffffff;
-  resize: vertical;
-}
+      <label for="seasonEnd">Season end week</label>
+      <select id="seasonEnd" required>
+        <option value="">Select week…</option>
+      </select>
+
+      <label for="emailHandle">Your email handle</label>
+      <div class="email-row">
+        <input id="emailHandle" type="text" inputmode="email" placeholder="first.last" autocomplete="username" required />
+        <span class="email-domain-pill">@farylrobin.com</span>
+      </div>
+
+      <label for="notes">Notes</label>
+      <textarea id="notes" placeholder="Only include styles with an online launch date within the season"></textarea>
+
+      <button id="submitBtn" type="submit">Submit report request</button>
+      <p id="msg" class="message" role="status" aria-live="polite"></p>
+    </form>
+
+    <a href="#" tabindex="-1">Form</a>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -89,7 +89,7 @@ const NRF_CSV = `"nrf_calendar_id","Start Date","End Date"
 "84","September 6 2026","September 12 2026"
 "85","September 13 2026","September 19 2026"
 "86","September 20 2026","September 26 2026"
-"87","September 27 2026","October 3 2026"
+"87","September 27 2026","October 2 2026"
 "88","October 4 2026","October 10 2026"
 "89","October 11 2026","October 17 2026"
 "90","October 18 2026","October 24 2026"
@@ -344,12 +344,20 @@ formEl.addEventListener("submit", async (e) => {
   submitBtn.textContent = "Sending…";
 
   try {
-    // If your webhook enforces CORS, you can use mode: 'no-cors' for fire-and-forget.
+    // Send as FormData to avoid CORS preflight issues on n8n Cloud
+    const fd = new FormData();
+    fd.append("account", JSON.stringify(payload.account));
+    fd.append("report_week", JSON.stringify(payload.report_week));
+    fd.append("season", JSON.stringify(payload.season));
+    fd.append("due_date", payload.due_date);
+    fd.append("email", payload.email);
+    fd.append("notes", payload.notes);
+    fd.append("submitted_at", payload.submitted_at);
+
     await fetch(WEBHOOK_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       mode: "no-cors",
-      body: JSON.stringify(payload)
+      body: fd
     });
 
     setMessage("Request sent. We'll send you a confirmation shortly.", "success");

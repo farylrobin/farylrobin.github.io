@@ -195,10 +195,10 @@ function parseNRF(csv) {
 }
 
 function buildOptions(weeks) {
-  // Label format: W{n}: Start – End
+  // Label format: Start – End (no W{id})
   return weeks.map(w => ({
     value: w.id,
-    label: `W${w.id}: ${w.start} – ${w.end}`,
+    label: `${w.start} – ${w.end}`,
     start: w.start,
     end: w.end
   }));

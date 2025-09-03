@@ -173,6 +173,8 @@ const formEl = document.getElementById("reportForm");
 const submitBtn = document.getElementById("submitBtn");
 const msgEl = document.getElementById("msg");
 const notesEl = document.getElementById("notes");
+const accountEl = document.getElementById("account");
+const dueDateEl = document.getElementById("dueDate");
 
 // ======= CSV Parsing (simple) =======
 function parseNRF(csv) {
@@ -195,29 +197,39 @@ function parseNRF(csv) {
 }
 
 function buildOptions(weeks) {
-  // Label format: Start – End (no W{id})
+  // Label format: Start – End (no W{id} in UI); include `name` for backend
   return weeks.map(w => ({
     value: w.id,
     label: `${w.start} – ${w.end}`,
+    name: `W${w.id}`,
     start: w.start,
     end: w.end
   }));
 }
 
-function fillSelect(el, opts) {
-  // Remove all but placeholder
-  el.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
-  for (const o of opts) {
-    const opt = document.createElement("option");
-    opt.value = o.value;
-    opt.textContent = o.label;
-    el.appendChild(opt);
-  }
-}
-
 // ======= Init =======
 const NRF_WEEKS = parseNRF(CLEAN_NRF_CSV);
 const WEEK_OPTIONS = buildOptions(NRF_WEEKS);
+
+// ======= Accounts (static list) =======
+const ACCOUNTS = [
+  { id: 1, name: "target" },
+  { id: 2, name: "amazon" },
+  { id: 3, name: "walmart" },
+  { id: 4, name: "american eagle" },
+  { id: 5, name: "abercrombie" },
+  { id: 6, name: "draper james" }
+];
+function fillAccounts(selectEl, accounts) {
+  selectEl.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
+  accounts.forEach(a => {
+    const opt = document.createElement("option");
+    opt.value = String(a.id);
+    opt.textContent = a.name;
+    selectEl.appendChild(opt);
+  });
+}
+fillAccounts(accountEl, ACCOUNTS);
 
 fillSelect(reportWeekEl, WEEK_OPTIONS);
 fillSelect(seasonStartEl, WEEK_OPTIONS);
@@ -253,8 +265,8 @@ formEl.addEventListener("submit", async (e) => {
   e.preventDefault();
   setMessage("");
 
-  if (!reportWeekEl.value || !seasonStartEl.value || !seasonEndEl.value) {
-    setMessage("Please select all weeks.", "error");
+  if (!accountEl.value || !reportWeekEl.value || !seasonStartEl.value || !seasonEndEl.value || !dueDateEl.value) {
+    setMessage("Please select all required fields.", "error");
     return;
   }
   if (!emailHandleEl.value.trim()) {
@@ -268,8 +280,13 @@ formEl.addEventListener("submit", async (e) => {
   const se = weekById(seasonEndEl.value);
 
   const payload = {
+    account: {
+      id: Number(accountEl.value),
+      name: accountEl.options[accountEl.selectedIndex]?.text || ""
+    },
     report_week: {
       id: Number(reportWeekEl.value),
+      name: rw?.name,
       label: rw?.label,
       start: rw?.start,
       end: rw?.end
@@ -277,17 +294,20 @@ formEl.addEventListener("submit", async (e) => {
     season: {
       start_week: {
         id: Number(seasonStartEl.value),
+        name: ss?.name,
         label: ss?.label,
         start: ss?.start,
         end: ss?.end
       },
       end_week: {
         id: Number(seasonEndEl.value),
+        name: se?.name,
         label: se?.label,
         start: se?.start,
         end: se?.end
       }
     },
+    due_date: dueDateEl.value,
     email: `${emailHandleEl.value.trim()}@farylrobin.com`,
     notes: (notesEl?.value || "").trim(),
     submitted_at: new Date().toISOString()
@@ -305,7 +325,7 @@ formEl.addEventListener("submit", async (e) => {
       body: JSON.stringify(payload)
     });
 
-    setMessage("Request sent. You’ll receive your report if configured.", "success");
+    setMessage("Request sent. We'll send you a confirmation shortly.", "success");
     formEl.reset();
     [reportWeekEl, seasonStartEl, seasonEndEl].forEach(el => (el.selectedIndex = 0));
   } catch (err) {
@@ -313,6 +333,6 @@ formEl.addEventListener("submit", async (e) => {
     setMessage("Failed to send request. Please try again.", "error");
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = "Submit report request";
+    submitBtn.textContent = "SUBMIT REPORT REQUEST";
   }
 });

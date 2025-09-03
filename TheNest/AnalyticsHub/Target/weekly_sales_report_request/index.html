@@ -8,9 +8,14 @@
 </head>
 <body>
   <div class="container">
-    <div class="brand-title">Weekly Report</div>
+    <div class="brand-title">Weekly Sales Report Request</div>
 
     <form id="reportForm" class="inputs" novalidate>
+      <label for="account">Account</label>
+      <select id="account" required>
+        <option value="">Select account…</option>
+      </select>
+
       <label for="reportWeek">Report week</label>
       <select id="reportWeek" required>
         <option value="">Select week…</option>
@@ -26,6 +31,9 @@
         <option value="">Select week…</option>
       </select>
 
+      <label for="dueDate">Due date</label>
+      <input id="dueDate" type="date" required />
+
       <label for="emailHandle">Your email handle</label>
       <div class="email-row">
         <input id="emailHandle" type="text" inputmode="email" placeholder="yourname" autocomplete="username" required style="text-align: right;" />
@@ -35,7 +43,7 @@
       <label for="notes">Notes</label>
       <textarea id="notes" placeholder="Only include styles with an online launch date within the season"></textarea>
 
-      <button id="submitBtn" type="submit">Submit report request</button>
+      <button id="submitBtn" type="submit">SUBMIT REPORT REQUEST</button>
       <p id="msg" class="message" role="status" aria-live="polite"></p>
     </form>
 

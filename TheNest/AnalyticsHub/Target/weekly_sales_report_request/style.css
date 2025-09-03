@@ -70,7 +70,7 @@ label {
 .inputs label + select,
 .inputs label + input,
 .inputs label + textarea {
-  margin-top: 6px;
+  margin-top: 12px;
 }
 
 .inputs select + label,

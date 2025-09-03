@@ -26,39 +26,35 @@ body {
 
 .container {
   position: relative;
-  width: 350px;
-  height: 500px;
-  border-radius: 20px;
-  padding: 40px;
+  width: 100%;
+  max-width: 560px;
+  border-radius: 12px;
+  padding: 32px;
   box-sizing: border-box;
-  background: #ecf0f3;
-  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px #ffffff;
+  background: #ffffff;
+  border: 1px solid #cbced1;
+  box-shadow: none;
+  height: auto;
 }
 
-.brand-logo {
-  height: 100px;
-  width: 100px;
-  background: url("https://img.icons8.com/color/100/000000/twitter--v2.png");
-  margin: auto;
-  border-radius: 50%;
-  box-sizing: border-box;
-  box-shadow: 7px 7px 10px #cbced1, -7px -7px 10px #ffffff;
-}
+.brand-logo { display: none; }
 
 .brand-title {
-  margin-top: 10px;
+  margin: 0 0 8px 0;
   font-weight: 900;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #00C9D8;
-  letter-spacing: 1px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .inputs {
   text-align: left;
-  margin-top: 30px;
+  margin-top: 24px;
 }
 
-label, input, button, select {
+label, input, button, select, textarea {
   display: block;
   width: 100%;
   padding: 0;
@@ -71,63 +67,73 @@ label {
   margin-bottom: 4px;
 }
 
-label:nth-of-type(2) {
-  margin-top: 12px;
+.inputs label + select,
+.inputs label + input,
+.inputs label + textarea {
+  margin-top: 6px;
 }
 
-input::placeholder {
-  color: gray;
+.inputs select + label,
+.inputs input + label,
+.inputs textarea + label {
+  margin-top: 16px;
 }
 
-input {
-  background: #ecf0f3;
-  padding: 10px;
-  padding-left: 20px;
-  height: 50px;
+input::placeholder, textarea::placeholder { color: gray; }
+
+input, select, textarea {
+  background: #ffffff;
+  padding: 12px 14px;
   font-size: 14px;
-  border-radius: 50px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px #ffffff;
+  border-radius: 8px;
+  border: 1px solid #cbced1;
+  box-shadow: none;
 }
 
-/* Harmonized select styling */
-select {
-  background: #ecf0f3;
-  padding: 10px 20px;
-  height: 50px;
-  font-size: 14px;
-  border-radius: 50px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px #ffffff;
-  appearance: none;
+/* Consistent focus styles */
+input:focus, select:focus, textarea:focus {
+  border-color: #00C9D8;
+  outline: 2px solid #00C9D8;
+  outline-offset: 0;
 }
+
+/* Make textarea comfortable for notes */
+textarea { min-height: 96px; resize: vertical; }
+
+/* Simplify select */
+select { appearance: none; }
 
 /* Button */
 button {
-  color: white;
+  color: #ffffff;
   margin-top: 20px;
   background: #00C9D8;
-  height: 40px;
-  border-radius: 20px;
+  padding: 12px 16px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 900;
-  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px #ffffff;
-  transition: 0.5s;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  border: none;
+  box-shadow: none;
+  transition: background-color .15s ease-in-out;
 }
 
-button:hover {
-  box-shadow: none;
-}
+button:hover { background: #0097A2; }
+button:active { background: #00646C; }
+button:disabled { background: #cbced1; cursor: not-allowed; }
 
 /* Footer link */
 a {
   position: absolute;
-  font-size: 8px;
-  bottom: 4px;
-  right: 4px;
+  font-size: 10px;
+  bottom: 8px;
+  right: 8px;
   text-decoration: none;
-  color: black;
-  background: #cbced1;
-  border-radius: 10px;
-  padding: 2px;
+  color: #003236;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
 }
 
 h1 {
@@ -145,22 +151,20 @@ h1 {
 }
 
 .email-domain-pill {
-  padding: 10px 16px;
-  height: 50px;
+  padding: 0 8px;
+  height: auto;
   display: inline-flex;
   align-items: center;
-  border-radius: 50px;
-  background: #ecf0f3;
+  border-radius: 0;
+  background: transparent;
   font-size: 14px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px #ffffff;
+  box-shadow: none;
   white-space: nowrap;
+  color: #00646C;
+  font-weight: 600;
 }
 
 /* Inline status message */
-.message {
-  margin-top: 12px;
-  font-size: 12px;
-}
-
+.message { margin-top: 12px; font-size: 12px; }
 .message.error { color: #EA4276; }
 .message.success { color: #00C9D8; }

@@ -11,43 +11,43 @@
     <div class="brand-title">Weekly Sales Report Request</div>
 
     <form id="reportForm" class="inputs" novalidate>
+      <h2 class="sr-only">Use this form to request a weekly sales report</h2>
       <label for="account">Account</label>
-      <select id="account" required>
+      <select id="account" name="account" required>
         <option value="">Select account…</option>
       </select>
 
       <label for="reportWeek">Report week</label>
-      <select id="reportWeek" required>
+      <select id="reportWeek" name="reportWeek" required>
         <option value="">Select week…</option>
       </select>
 
       <label for="seasonStart">Season start week</label>
-      <select id="seasonStart" required>
+      <select id="seasonStart" name="seasonStart" required>
         <option value="">Select week…</option>
       </select>
 
       <label for="seasonEnd">Season end week</label>
-      <select id="seasonEnd" required>
+      <select id="seasonEnd" name="seasonEnd" required>
         <option value="">Select week…</option>
       </select>
 
       <label for="dueDate">Due date</label>
-      <input id="dueDate" type="date" required />
+      <input id="dueDate" name="dueDate" type="date" required />
 
       <label for="emailHandle">Your email handle</label>
       <div class="email-row">
-        <input id="emailHandle" type="text" inputmode="email" placeholder="yourname" autocomplete="username" required style="text-align: right;" />
+        <input id="emailHandle" name="emailHandle" type="text" inputmode="email" placeholder="yourname" autocomplete="username" required style="text-align: right;" />
         <span class="email-domain-pill">@farylrobin.com</span>
       </div>
 
       <label for="notes">Notes</label>
-      <textarea id="notes" placeholder="Only include styles with an online launch date within the season"></textarea>
+      <textarea id="notes" name="notes" placeholder="Only include styles with an online launch date within the season"></textarea>
 
       <button id="submitBtn" type="submit">SUBMIT REPORT REQUEST</button>
       <p id="msg" class="message" role="status" aria-live="polite"></p>
     </form>
 
-    <a href="#" tabindex="-1">Form</a>
   </div>
 
   <script src="main.js"></script>

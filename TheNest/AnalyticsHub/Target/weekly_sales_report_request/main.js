@@ -206,6 +206,25 @@ function buildOptions(weeks) {
     end: w.end
   }));
 }
+// Populate a <select> with options [{ value, label }]
+function fillSelect(selectEl, options) {
+  if (!selectEl) {
+    console.error("fillSelect: selectEl is null/undefined");
+    return;
+  }
+  // Preserve any first placeholder option and clear the rest
+  try {
+    selectEl.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
+  } catch (_) {
+    // If there is no first-child or options, that's fine; we'll just append
+  }
+  options.forEach(opt => {
+    const o = document.createElement("option");
+    o.value = String(opt.value);
+    o.textContent = opt.label;
+    selectEl.appendChild(o);
+  });
+}
 
 // ======= Init =======
 const NRF_WEEKS = parseNRF(CLEAN_NRF_CSV);

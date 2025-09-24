@@ -1,27 +1,5 @@
 // Log to confirm script is executing
 console.log("Main.js loaded");
-let FORM_VERSION = "";
-window.FORM_VERSION = FORM_VERSION;
-
-function renderVersionTag() {
-  const tag = document.getElementById("versionTag");
-  if (tag) tag.textContent = `v ${FORM_VERSION}`;
-}
-
-(async () => {
-  try {
-    const res = await fetch('/package.json');
-    if (!res.ok) throw new Error(`Failed to fetch package.json: ${res.status}`);
-    const pkg = await res.json();
-    FORM_VERSION = pkg.version;
-  } catch (err) {
-    console.error("Failed to load package version:", err);
-    FORM_VERSION = "unknown";
-  }
-  window.FORM_VERSION = FORM_VERSION;
-  renderVersionTag();
-  console.log(`Main.js version: ${FORM_VERSION}`);
-})();
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
   { label: "Hard Commit (PO Details)", id: "hard_commit_po_details" },
@@ -218,7 +196,7 @@ submitButton.addEventListener("click", async () => {
 
 /* ---------- init ---------- */
 async function init() {
-  renderVersionTag();
+  // no longer calling renderVersionTag()
 }
 
 // Create the drop‑zones immediately; they don't depend on seasons

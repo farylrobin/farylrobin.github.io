@@ -2,10 +2,10 @@
 console.log("Main.js loaded");
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
-  { label: "Hard Commit (PO Details)", id: "hard_commit_po_details" },
-  { label: "Hard Commit (OTB Details)", id: "hard_commit_otb_details" },
+  { label: "Sales Plan", id: "target_forecast" },
   { label: "Sales + Inventory", id: "target_sales" },
-  { label: "Sales Plan", id: "target_forecast" }
+  { label: "Hard Commit (PO Details)", id: "hard_commit_po_details" },
+  { label: "Hard Commit (OTB Details)", id: "hard_commit_otb_details" }
 ];
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/8ac32273-95ab-477f-a54f-eaff34d459da";

@@ -25,10 +25,21 @@ function renderVersionTag() {
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
   { label: "Hard Commit (PO Details)", id: "hard_commit_po_details" },
-  { label: "Hard Commit (OTB Details)", id: "hard_commit_otb_details" }
+  { label: "Hard Commit (OTB Details)", id: "hard_commit_otb_details" },
+  { label: "Sales + Inventory", id: "target_sales" },
+  { label: "Sales Plan", id: "target_forecast" }
 ];
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/8ac32273-95ab-477f-a54f-eaff34d459da";
+const N8N_WEBHOOK_URL_TARGET =
+  "https://farylrobin.app.n8n.cloud/webhook/5220dc45-a9fe-4934-a5d8-d908a6024868";
+
+const WEBHOOK_ROUTE = {
+  hard_commit_po_details: N8N_WEBHOOK_URL,
+  hard_commit_otb_details: N8N_WEBHOOK_URL,
+  target_sales: N8N_WEBHOOK_URL_TARGET,
+  target_forecast: N8N_WEBHOOK_URL_TARGET
+};
 /* -------------------------------- */
 
 /* ------------ DOM refs ---------- */
@@ -139,37 +150,47 @@ submitButton.addEventListener("click", async () => {
   errorBox.style.display = "none";
   successBox.style.display = "none";
 
-  const formData = new FormData();
-  formData.append("submissionTime", new Date().toISOString());
-
-  /* add files + metadata */
-  // All files use the single field name "files" so n8n can capture them under item.binary.filesX
-  const fileMetadata = [];
+  /* add files + metadata (grouped by webhook) */
+  const groupsByWebhook = {};
   Object.entries(filesByDropzone).forEach(([identifier, files]) => {
+    const webhook = WEBHOOK_ROUTE[identifier] || N8N_WEBHOOK_URL;
+    if (!groupsByWebhook[webhook]) groupsByWebhook[webhook] = [];
     files.forEach((file, idx) => {
-      const key = 'files';
+      groupsByWebhook[webhook].push({ identifier, file, index: idx });
+    });
+  });
+
+  // For each webhook group, build a separate FormData and send it
+  const webhooks = Object.keys(groupsByWebhook);
+  for (const webhook of webhooks) {
+    const formData = new FormData();
+    formData.append("submissionTime", new Date().toISOString());
+
+    const fileMetadata = [];
+    groupsByWebhook[webhook].forEach(({ identifier, file, index }) => {
+      const key = "files"; // keep a single field name so n8n captures files as files, files_2, etc.
       formData.append(key, file, file.name);
-      // Attach the dropzone identifier as a JSON attribute for each file
-      formData.append('dropzone_identifier', identifier);
+      // Attach the dropzone identifier alongside each file
+      formData.append("dropzone_identifier", identifier);
       fileMetadata.push({
         formDataKey: key,
         originalName: file.name,
         size: file.size,
         type: file.type,
         dropzone_identifier: identifier,
-        index: idx
+        index
       });
     });
-  });
-  formData.append("metadata", JSON.stringify(fileMetadata));
+    formData.append("metadata", JSON.stringify(fileMetadata));
 
-  try {
-    await fetch(N8N_WEBHOOK_URL, {
+    await fetch(webhook, {
       method: "POST",
-      mode: "no-cors", // avoid CORS pre‑flight; fire‑and‑forget
+      mode: "no-cors", // avoid CORS pre-flight; fire-and-forget
       body: formData
     });
+  }
 
+  try {
     const timestamp = new Date().toLocaleString("en-US", {
       month: "long",
       day: "numeric",

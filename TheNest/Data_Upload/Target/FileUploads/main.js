@@ -135,6 +135,7 @@ submitButton.addEventListener("click", async () => {
   /* add files + metadata (grouped by webhook) */
   const groupsByWebhook = {};
   Object.entries(filesByDropzone).forEach(([identifier, files]) => {
+    if (!files || files.length === 0) return; // skip empty dropzones
     const webhook = WEBHOOK_ROUTE[identifier] || N8N_WEBHOOK_URL;
     if (!groupsByWebhook[webhook]) groupsByWebhook[webhook] = [];
     files.forEach((file, idx) => {
@@ -142,12 +143,14 @@ submitButton.addEventListener("click", async () => {
     });
   });
 
-  // For each webhook group, build a separate FormData and send it
-  const webhooks = Object.keys(groupsByWebhook);
+  // For each webhook group with files, build a separate FormData and send it
+  const webhooks = Object.keys(groupsByWebhook).filter(
+    (w) => Array.isArray(groupsByWebhook[w]) && groupsByWebhook[w].length > 0
+  );
   for (const webhook of webhooks) {
     const formData = new FormData();
     formData.append("submissionTime", new Date().toISOString());
-
+  
     const fileMetadata = [];
     groupsByWebhook[webhook].forEach(({ identifier, file, index }) => {
       const key = "files"; // keep a single field name so n8n captures files as files, files_2, etc.
@@ -163,13 +166,16 @@ submitButton.addEventListener("click", async () => {
         index
       });
     });
-    formData.append("metadata", JSON.stringify(fileMetadata));
-
-    await fetch(webhook, {
-      method: "POST",
-      mode: "no-cors", // avoid CORS pre-flight; fire-and-forget
-      body: formData
-    });
+  
+    // Only send if we actually appended files
+    if (fileMetadata.length > 0) {
+      formData.append("metadata", JSON.stringify(fileMetadata));
+      await fetch(webhook, {
+        method: "POST",
+        mode: "no-cors", // avoid CORS pre-flight; fire-and-forget
+        body: formData
+      });
+    }
   }
 
   try {

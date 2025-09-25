@@ -136,7 +136,8 @@ submitButton.addEventListener("click", async () => {
   const groupsByWebhook = {};
   Object.entries(filesByDropzone).forEach(([identifier, files]) => {
     if (!files || files.length === 0) return; // skip empty dropzones
-    const webhook = WEBHOOK_ROUTE[identifier] || N8N_WEBHOOK_URL;
+    const webhook = WEBHOOK_ROUTE[identifier];
+    if (!webhook) { console.warn(`No webhook route for ${identifier}; skipping files for safety.`); return; }
     if (!groupsByWebhook[webhook]) groupsByWebhook[webhook] = [];
     files.forEach((file, idx) => {
       groupsByWebhook[webhook].push({ identifier, file, index: idx });
@@ -152,29 +153,40 @@ submitButton.addEventListener("click", async () => {
     formData.append("submissionTime", new Date().toISOString());
   
     const fileMetadata = [];
+    const mapping = {}; // file_N => dropzone_identifier
+    let fileIndex = 0;
+  
     groupsByWebhook[webhook].forEach(({ identifier, file, index }) => {
-      const key = "files"; // keep a single field name so n8n captures files as files, files_2, etc.
+      const key = `file_${fileIndex++}`;
       formData.append(key, file, file.name);
-      // Attach the dropzone identifier alongside each file
-      formData.append("dropzone_identifier", identifier);
+      mapping[key] = identifier;
       fileMetadata.push({
         formDataKey: key,
         originalName: file.name,
         size: file.size,
         type: file.type,
         dropzone_identifier: identifier,
-        index
+        originalIndex: index
       });
     });
   
     // Only send if we actually appended files
     if (fileMetadata.length > 0) {
+      formData.append("mapping", JSON.stringify(mapping));
       formData.append("metadata", JSON.stringify(fileMetadata));
+  
+      // Light diagnostics without exposing file contents
+      console.log(
+        `[upload] POST -> ${webhook} | files: ${fileMetadata.length} | keys: ${Object.keys(mapping).join(", ")}`
+      );
+  
       await fetch(webhook, {
         method: "POST",
         mode: "no-cors", // avoid CORS pre-flight; fire-and-forget
         body: formData
       });
+    } else {
+      console.log(`[upload] Skipped ${webhook}: no files to send`);
     }
   }
 

@@ -103,6 +103,8 @@ body {
   margin-bottom: 5px;
   border-radius: 3px;
   word-break: break-word;
+  position: relative;
+  padding-right: 1.75rem;
 }
 
 /* --- Submit section --- */
@@ -207,4 +209,35 @@ body {
 
 .season-controls button:hover {
   background: #005fcc;
+}
+
+/* Removable file chip “X” button */
+.staged-files .remove-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.25rem 0.4rem;
+  color: #666;
+  opacity: 0.85;
+}
+
+.staged-files .remove-btn:hover {
+  color: #000;
+  opacity: 1;
+}
+
+.staged-files .remove-btn:focus-visible {
+  outline: 2px solid #2196F3;
+  outline-offset: 2px;
+}
+
+/* Keyboard accessibility for dropzones */
+.dropzone:focus-visible {
+  outline: 2px dashed #2196F3;
+  outline-offset: 4px;
 }

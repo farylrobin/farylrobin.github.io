@@ -100,10 +100,56 @@ function handleFiles(identifier, files, fileDisplayElement) {
   const list = fileDisplayElement.querySelector("ul");
 
   Array.from(files).forEach((file) => {
+    // Track the file in memory for this dropzone
     filesByDropzone[identifier].push(file);
 
+    // Create list item container
     const li = document.createElement("li");
-    li.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
+    li.style.position = "relative";
+    li.style.paddingRight = "1.75rem"; // space for the X button
+
+    // Filename + size label
+    const label = document.createElement("span");
+    label.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
+    li.appendChild(label);
+
+    // Removable X button (top-right)
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.textContent = "✕";
+    removeBtn.setAttribute("aria-label", "Remove file");
+    removeBtn.title = "Remove file";
+    removeBtn.style.position = "absolute";
+    removeBtn.style.top = "0";
+    removeBtn.style.right = "0";
+    removeBtn.style.border = "none";
+    removeBtn.style.background = "transparent";
+    removeBtn.style.cursor = "pointer";
+    removeBtn.style.fontSize = "1rem";
+    removeBtn.style.lineHeight = "1";
+    removeBtn.style.padding = "0.25rem 0.4rem";
+
+    removeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      // Remove this specific File object from the staged array
+      const arr = filesByDropzone[identifier];
+      const idx = arr.indexOf(file);
+      if (idx !== -1) arr.splice(idx, 1);
+
+      // Remove from UI
+      li.remove();
+
+      // Update submit button enabled state
+      submitButton.disabled = !Object.values(filesByDropzone).some(
+        (arr) => arr.length > 0
+      );
+
+      // Hide any prior messages when changing staged files
+      errorBox.style.display = "none";
+      successBox.style.display = "none";
+    });
+
+    li.appendChild(removeBtn);
     list.appendChild(li);
   });
 

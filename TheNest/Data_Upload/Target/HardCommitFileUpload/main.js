@@ -2,21 +2,20 @@
 console.log("Main.js loaded");
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
-  { label: "Sales Plan", id: "target_forecast" },
-  { label: "Sales + Inventory", id: "target_sales" },
-  { label: "VA Buy Plan", id: "target_soft_commits" }
+  { label: "Commit Header", id: "commit_header" },
+  { label: "Commit Items", id: "commit_items" },
+  { label: "PO Details", id: "po_details" },
+  { label: "OTB Details", id: "otb_details" },
+  { label: "Assortment Details", id: "assortment_details" }
 ];
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/8ac32273-95ab-477f-a54f-eaff34d459da";
-const N8N_WEBHOOK_URL_TARGET =
-  "https://farylrobin.app.n8n.cloud/webhook/5220dc45-a9fe-4934-a5d8-d908a6024868";
-const N8N_WEBHOOK_URL_SOFT_COMMITS =
-  "https://farylrobin.app.n8n.cloud/webhook/b0bbab96-b2d2-4428-ba6c-8b06c0a27081";
-
 const WEBHOOK_ROUTE = {
-  target_sales: N8N_WEBHOOK_URL_TARGET,
-  target_soft_commits: N8N_WEBHOOK_URL_SOFT_COMMITS,
-  target_forecast: N8N_WEBHOOK_URL_TARGET
+  commit_header: N8N_WEBHOOK_URL,
+  commit_items: N8N_WEBHOOK_URL,
+  po_details: N8N_WEBHOOK_URL,
+  otb_details: N8N_WEBHOOK_URL,
+  assortment_details: N8N_WEBHOOK_URL
 };
 /* -------------------------------- */
 

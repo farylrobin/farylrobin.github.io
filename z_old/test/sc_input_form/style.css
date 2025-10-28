@@ -1,0 +1,225 @@
+/* --- Base Styles --- */
+:root {
+    --form-padding: 24px;
+    --column-gap: 20px;
+    --field-bottom-margin: 16px;
+    --border-color: #d0d5dd;
+    --label-color: #344054;
+    --heading-color: #6c757d;
+    --bg-color: #fdfdfd;
+    --success-color: #12b76a;
+    --error-color: #f04438;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f5f7;
+    color: var(--label-color);
+    padding: var(--form-padding);
+}
+
+.form-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: var(--form-padding);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* --- Form & Grid Layout --- */
+.form-grid {
+    display: grid;
+    /* 5-column layout by default */
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--column-gap);
+    padding: var(--form-padding);
+}
+
+.form-column h2,
+.form-column h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 8px;
+    margin-bottom: var(--field-bottom-margin);
+}
+
+.form-column h3 {
+    margin-top: 24px; /* Space above sub-headings */
+}
+
+/* --- Form Elements --- */
+.form-group {
+    margin-bottom: var(--field-bottom-margin);
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="file"] {
+    padding: 8px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #80acff;
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+::placeholder {
+    color: #adb5bd;
+}
+
+/* For compound inputs (e.g., text + select) */
+.input-group {
+    display: flex;
+    gap: 5px;
+}
+
+.input-group input {
+    flex: 2; /* Main input takes more space */
+}
+
+.input-group select {
+    flex: 1; /* UOM select takes less space */
+}
+
+.form-group-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: var(--field-bottom-margin);
+}
+
+.form-group-checkbox input[type="checkbox"] {
+    width: auto;
+}
+
+.form-group-checkbox label {
+    margin-bottom: 0;
+    font-weight: 400;
+}
+
+/* --- Submit Button & Status --- */
+.form-submit {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    padding: var(--form-padding);
+    border-top: 1px solid var(--border-color);
+    background-color: #f9fafb;
+}
+
+.form-status-message {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.form-status-message.success {
+    color: var(--success-color);
+}
+.form-status-message.error {
+    color: var(--error-color);
+}
+
+.form-submit button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-submit button:hover {
+    background-color: #0056b3;
+}
+
+.form-submit button:disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+}
+
+/* --- Responsive Media Queries --- */
+
+/* Tablet (2 columns) */
+@media (max-width: 1200px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile (1 column) */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    body {
+        padding: 10px;
+    }
+    h1 {
+        padding: 16px;
+    }
+    .form-grid, .form-submit {
+        padding: 16px;
+    }
+    .form-submit {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+    .form-submit button {
+        width: 100%;
+    }
+    .form-status-message {
+        text-align: center;
+        margin-bottom: 12px;
+    }
+}

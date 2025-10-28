@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Sourcing Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Product Sourcing Form</h1>
+        
+        <form id="sourcing-form" action="https://automation.supplyonyx.com:5678/webhook/26b05d11-b2e1-42e9-ac83-0427fed910fc" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-grid">
+                
+                <div class="form-column">
+                    <h2>Product Information</h2>
+                    <div class="form-group">
+                        <label for="item_type">Item Type</label>
+                        <select id="item_type" name="item_type" required>
+                            <option value="Cups" selected>Cups</option>
+                            <option value="Lids">Lids</option>
+                            <option value="Containers">Containers</option>
+                            <option value="Bags">Bags</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="Paper Cups" selected>Paper Cups</option>
+                            <option value="Plastic Cups">Plastic Cups</option>
+                            <option value="Foam Cups">Foam Cups</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hot_or_cold">Hot or Cold?</label>
+                        <select id="hot_or_cold" name="hot_or_cold" required>
+                            <option value="" disabled>Select One</option>
+                            <option value="Hot" selected>Hot</option>
+                            <option value="Cold">Cold</option>
+                        </select>
+                    </div>
+
+                    <h3>File Upload</h3>
+                    <div class="form-group">
+                        <label for="spec_sheet">Spec Sheet</label>
+                        <input type="file" id="spec_sheet" name="spec_sheet">
+                    </div>
+                    <div class="form-group">
+                        <label for="artwork">Artwork</label>
+                        <input type="file" id="artwork" name="artwork">
+                    </div>
+                    <div class="form-group">
+                        <label for="product_photos">Photos of Existing Product</label>
+                        <input type="file" id="product_photos" name="product_photos" multiple>
+                    </div>
+                    <div class="form-group-checkbox">
+                        <input type="checkbox" id="artwork_changing" name="artwork_changing" value="true">
+                        <label for="artwork_changing">My Artwork Is Changing</label>
+                    </div>
+                </div>
+
+                <div class="form-column">
+                    <h2>Specifications</h2>
+                    <div class="form-group">
+                        <label for="wall_type">Single Wall or Double Wall</label>
+                        <select id="wall_type" name="wall_type" required>
+                            <option value="Single Wall" selected>Single Wall</option>
+                            <option value="Double Wall">Double Wall</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="size_oz">Select Size in Ounces</label>
+                        <select id="size_oz" name="size_oz" required>
+                            <option value="8 Squat" selected>8 Squat</option>
+                            <option value="8oz">8 oz</option>
+                            <option value="10oz">10 oz</option>
+                            <option value="12oz">12 oz</option>
+                            <option value="16oz">16 oz</option>
+                            <option value="20oz">20 oz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cup_weight">Desired Weight Per Cup</label>
+                        <div class="input-group">
+                            <input type="number" id="cup_weight" name="cup_weight" placeholder="Type Here">
+                            <select name="cup_weight_uom">
+                                <option value="" selected>Select One</option>
+                                <option value="g">g</option>
+                                <option value="oz">oz</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_lid">Would You Like To Add The Sip Through Lid?</label>
+                        <select id="add_lid" name="add_lid">
+                            <option value="Yes" selected>Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lid_color">Lid Color</label>
+                        <select id="lid_color" name="lid_color">
+                            <option value="White" selected>White</option>
+                            <option value="Black">Black</option>
+                            <option value="Translucent">Translucent</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lid_material">Lid Material</label>
+                        <select id="lid_material" name="lid_material">
+                            <option value="PLA Coated Paperboard" selected>PLA Coated Paperboard</option>
+                            <option value="CPLA">CPLA</option>
+                            <option value="PS">PS (Polystyrene)</option>
+                            <option value="PET">PET</option>
+                        </select>
+                    </div>
+                    
+                    <h3>Design</h3>
+                    <div class="form-group">
+                        <label for="branded">Branded?</label>
+                        <select id="branded" name="branded">
+                            <option value="Yes" selected>Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="num_colors">Enter # of Colors</label>
+                        <input type="number" id="num_colors" name="num_colors" placeholder="Type Here" min="0">
+                    </div>
+                </div>
+
+                <div class="form-column">
+                    <h2>Usage Information</h2>
+                    <div class="form-group">
+                        <label for="product_use">What Will The Product Be Used For?</label>
+                        <input type="text" id="product_use" name="product_use" placeholder="Type Here">
+                    </div>
+                    <div class="form-group">
+                        <label for="total_usage">Total Usage Per Month</label>
+                        <div class="input-group">
+                            <input type="number" id="total_usage" name="total_usage" placeholder="Type Here">
+                            <select name="total_usage_uom">
+                                <option value="Eaches" selected>Eaches</option>
+                                <option value="Cases">Cases</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="current_pack_size">Current Pack Size</label>
+                        <input type="text" id="current_pack_size" name="current_pack_size" placeholder="e.g., 1000">
+                    </div>
+                    <div class="form-group">
+                        <label for="inner_pack_needed">Inner Pack Needed?</label>
+                        <select id="inner_pack_needed" name="inner_pack_needed">
+                            <option value="Yes" selected>Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inner_pack_size">Requested Inner Pack Size</label>
+                        <input type="text" id="inner_pack_size" name="inner_pack_size" placeholder="e.g., 50">
+                    </div>
+                    <div class="form-group">
+                        <label for="sample_requested">Sample Requested?</label>
+                        <select id="sample_requested" name="sample_requested">
+                            <option value="Yes" selected>Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <h3>Address</h3>
+                    <div class="form-group">
+                        <label for="address_street">Address</label>
+                        <textarea id="address_street" name="address_street" rows="3">12901 Georgia Avenue, Silver Spring, MD, USA</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="address_apt">Apartment/Suite</label>
+                        <input type="text" id="address_apt" name="address_apt" value="12">
+                    </div>
+                </div>
+                
+                <div class="form-column">
+                    <h2>Distribution Partner</h2>
+                    <div class="form-group">
+                        <label for="distribution_partner">Partner Name</label>
+                        <input type="text" id="distribution_partner" name="distribution_partner" placeholder="Enter Partner Name">
+                    </div>
+                </div>
+
+                <div class="form-column">
+                    <h2>Current Contract</h2>
+                    <div class="form-group">
+                        <label for="in_contract">Are You In Contract?</label>
+                        <select id="in_contract" name="in_contract">
+                            <option value="Yes" selected>Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contract_exp_date">Contract Expiration Date</label>
+                        <input type="date" id="contract_exp_date" name="contract_exp_date" value="2025-03-19">
+                    </div>
+                    <div class="form-group">
+                        <label for="anticipated_start_date">Anticipated Start Date With SupplyCaddy</label>
+                        <input type="date" id="anticipated_start_date" name="anticipated_start_date" value="2025-03-19">
+                    </div>
+                    <div class="form-group">
+                        <label for="award_deadline">Deadline For Awarding New Business</label>
+                        <input type="date" id="award_deadline" name="award_deadline" value="2025-03-05">
+                    </div>
+                    <div class="form-group">
+                        <label for="is_rfp">Are These Item(s) Part Of An RFP?</label>
+                        <select id="is_rfp" name="is_rfp">
+                            <option value="No" selected>No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <h3>Current Inventory</h3>
+                    <div class="form-group">
+                        <label for="inventory_on_hand">Existing Inventory On Hand</label>
+                        <div class="input-group">
+                            <input type="number" id="inventory_on_hand" name="inventory_on_hand" placeholder="Type Here">
+                            <select name="inventory_uom">
+                                <option value="Weeks" selected>Weeks</option>
+                                <option value="Cases">Cases</option>
+                                <option value="Eaches">Eaches</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <div class="form-submit">
+                <div id="form-status" class="form-status-message"></div>
+                <button type="submit" id="submit-button">Submit Information</button>
+            </div>
+            
+        </form>
+    </div> <script src="script.js" defer></script>
+</body>
+</html>

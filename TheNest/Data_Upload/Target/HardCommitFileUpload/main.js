@@ -2,20 +2,12 @@
 console.log("Main.js loaded");
 /* ------------ CONFIG ------------ */
 const DROPZONE_IDENTIFIERS = [
-  { label: "Commit Header", id: "commit_header" },
-  { label: "Commit Items", id: "commit_items" },
-  { label: "PO Details", id: "po_details" },
-  { label: "OTB Details", id: "otb_details" },
-  { label: "Assortment Details", id: "assortment_details" }
+  { label: "Hard Commit Files", id: "hard_commit_files" }
 ];
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/8ac32273-95ab-477f-a54f-eaff34d459da";
 const WEBHOOK_ROUTE = {
-  commit_header: N8N_WEBHOOK_URL,
-  commit_items: N8N_WEBHOOK_URL,
-  po_details: N8N_WEBHOOK_URL,
-  otb_details: N8N_WEBHOOK_URL,
-  assortment_details: N8N_WEBHOOK_URL
+  hard_commit_files: N8N_WEBHOOK_URL
 };
 /* -------------------------------- */
 

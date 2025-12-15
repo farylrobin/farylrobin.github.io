@@ -1,11 +1,13 @@
 // Log to confirm script is executing
 console.log("Main.js loaded");
 /* ------------ CONFIG ------------ */
-const DROPZONE_IDENTIFIERS = [
-  { label: "Sales Order Upload", id: "hard_commit_files" }
-];
+const ACCOUNT_LIST_PATH = "assets/AccountDropdownList.txt";
+
+const DROPZONE_IDENTIFIERS = [{ label: "Sales Order Upload", id: "hard_commit_files" }];
+
 const N8N_WEBHOOK_URL =
   "https://farylrobin.app.n8n.cloud/webhook/f5ed22f0-f5d6-494a-a8e1-e9d26285cc55";
+
 const WEBHOOK_ROUTE = {
   hard_commit_files: N8N_WEBHOOK_URL
 };
@@ -28,11 +30,47 @@ const submitButton = document.getElementById("submitButton");
 const errorBox = document.getElementById("errorBox");
 const successBox = document.getElementById("successBox");
 const loadingBox = document.getElementById("loadingBox");
+
+let accountSelect = document.getElementById("accountSelect");
+
+/* If the select is missing, create it dynamically (failsafe) */
+if (!accountSelect) {
+  const controls = document.createElement("div");
+  controls.className = "season-controls";
+  controls.id = "accountControls";
+
+  const label = document.createElement("label");
+  label.htmlFor = "accountSelect";
+  label.textContent = "Account:";
+
+  accountSelect = document.createElement("select");
+  accountSelect.id = "accountSelect";
+  accountSelect.innerHTML = `<option value="">Select an account…</option>`;
+
+  controls.appendChild(label);
+  controls.appendChild(accountSelect);
+
+  const app = document.querySelector(".app-container") || document.body;
+  app.insertBefore(controls, dropzoneGrid);
+}
 /* -------------------------------- */
 
 let filesByDropzone = {};
 
-/* --- create a single drop‑zone --- */
+function updateSubmitEnabled() {
+  const anyFiles = Object.values(filesByDropzone).some((arr) => Array.isArray(arr) && arr.length > 0);
+  const hasAccount = !!(accountSelect && accountSelect.value && accountSelect.value.trim());
+  submitButton.disabled = !(anyFiles && hasAccount);
+}
+
+accountSelect.addEventListener("change", () => {
+  // Hide any prior messages when changing account
+  errorBox.style.display = "none";
+  successBox.style.display = "none";
+  updateSubmitEnabled();
+});
+
+/* --- create a single drop-zone --- */
 function createDropzone(identifier) {
   const container = document.createElement("div");
   container.className = "file-upload-container";
@@ -43,8 +81,7 @@ function createDropzone(identifier) {
 
   const dropzone = document.createElement("div");
   dropzone.className = "dropzone";
-  dropzone.innerHTML =
-    "<p>Upload Here</p><p>(Drag 'n' drop files, or click)</p>";
+  dropzone.innerHTML = "<p>Upload Here</p><p>(Drag 'n' drop files, or click)</p>";
 
   const input = document.createElement("input");
   input.type = "file";
@@ -65,9 +102,7 @@ function createDropzone(identifier) {
     dropzone.classList.add("active");
   });
 
-  dropzone.addEventListener("dragleave", () =>
-    dropzone.classList.remove("active")
-  );
+  dropzone.addEventListener("dragleave", () => dropzone.classList.remove("active"));
 
   dropzone.addEventListener("drop", (e) => {
     e.preventDefault();
@@ -75,9 +110,7 @@ function createDropzone(identifier) {
     handleFiles(identifier.id, e.dataTransfer.files, fileList);
   });
 
-  input.addEventListener("change", () =>
-    handleFiles(identifier.id, input.files, fileList)
-  );
+  input.addEventListener("change", () => handleFiles(identifier.id, input.files, fileList));
 
   /* --- assemble --- */
   container.appendChild(title);
@@ -123,6 +156,7 @@ function handleFiles(identifier, files, fileDisplayElement) {
 
     removeBtn.addEventListener("click", (e) => {
       e.stopPropagation();
+
       // Remove this specific File object from the staged array
       const arr = filesByDropzone[identifier];
       const idx = arr.indexOf(file);
@@ -131,10 +165,8 @@ function handleFiles(identifier, files, fileDisplayElement) {
       // Remove from UI
       li.remove();
 
-      // Update submit button enabled state
-      submitButton.disabled = !Object.values(filesByDropzone).some(
-        (arr) => arr.length > 0
-      );
+      // Update submit button enabled state (requires account + at least one file)
+      updateSubmitEnabled();
 
       // Hide any prior messages when changing staged files
       errorBox.style.display = "none";
@@ -145,9 +177,7 @@ function handleFiles(identifier, files, fileDisplayElement) {
     list.appendChild(li);
   });
 
-  submitButton.disabled = !Object.values(filesByDropzone).some(
-    (arr) => arr.length > 0
-  );
+  updateSubmitEnabled();
   errorBox.style.display = "none";
   successBox.style.display = "none";
 }
@@ -161,6 +191,13 @@ submitButton.addEventListener("click", async () => {
     return;
   }
 
+  const selectedAccount = (accountSelect?.value || "").trim();
+  if (!selectedAccount) {
+    errorBox.textContent = "Please select an account before uploading.";
+    errorBox.style.display = "block";
+    return;
+  }
+
   loadingBox.style.display = "block";
   errorBox.style.display = "none";
   successBox.style.display = "none";
@@ -170,7 +207,10 @@ submitButton.addEventListener("click", async () => {
   Object.entries(filesByDropzone).forEach(([identifier, files]) => {
     if (!files || files.length === 0) return; // skip empty dropzones
     const webhook = WEBHOOK_ROUTE[identifier];
-    if (!webhook) { console.warn(`No webhook route for ${identifier}; skipping files for safety.`); return; }
+    if (!webhook) {
+      console.warn(`No webhook route for ${identifier}; skipping files for safety.`);
+      return;
+    }
     if (!groupsByWebhook[webhook]) groupsByWebhook[webhook] = [];
     files.forEach((file, idx) => {
       groupsByWebhook[webhook].push({ identifier, file, index: idx });
@@ -181,38 +221,42 @@ submitButton.addEventListener("click", async () => {
   const webhooks = Object.keys(groupsByWebhook).filter(
     (w) => Array.isArray(groupsByWebhook[w]) && groupsByWebhook[w].length > 0
   );
+
   for (const webhook of webhooks) {
     const formData = new FormData();
     formData.append("submissionTime", new Date().toISOString());
-  
+
     const fileMetadata = [];
-    const mapping = {}; // file_N => dropzone_identifier
+    const mapping = {}; // file_N => dropzone_identifier (NOW: selected account)
     let fileIndex = 0;
-  
+
     groupsByWebhook[webhook].forEach(({ identifier, file, index }) => {
       const key = `file_${fileIndex++}`;
       formData.append(key, file, file.name);
-      mapping[key] = identifier;
+
+      // Send selected account as dropzone_identifier
+      mapping[key] = selectedAccount;
+
       fileMetadata.push({
         formDataKey: key,
         originalName: file.name,
         size: file.size,
         type: file.type,
-        dropzone_identifier: identifier,
+        dropzone_identifier: selectedAccount,
         originalIndex: index
       });
     });
-  
+
     // Only send if we actually appended files
     if (fileMetadata.length > 0) {
       formData.append("mapping", JSON.stringify(mapping));
       formData.append("metadata", JSON.stringify(fileMetadata));
-  
+
       // Light diagnostics without exposing file contents
       console.log(
         `[upload] POST -> ${webhook} | files: ${fileMetadata.length} | keys: ${Object.keys(mapping).join(", ")}`
       );
-  
+
       await fetch(webhook, {
         method: "POST",
         mode: "no-cors", // avoid CORS pre-flight; fire-and-forget
@@ -240,7 +284,9 @@ submitButton.addEventListener("click", async () => {
     dropzoneGrid.innerHTML = "";
     filesByDropzone = {};
     DROPZONE_IDENTIFIERS.forEach((dz) => createDropzone(dz));
-    submitButton.disabled = true;
+
+    // After reset: enable only if user has account selected and files exist (none exist now)
+    updateSubmitEnabled();
   } catch (err) {
     errorBox.textContent = "Upload failed";
     errorBox.style.display = "block";
@@ -249,13 +295,44 @@ submitButton.addEventListener("click", async () => {
   }
 });
 
-/* ---------- init ---------- */
-async function init() {
-  // no longer calling renderVersionTag()
+async function loadAccounts() {
+  try {
+    const res = await fetch(ACCOUNT_LIST_PATH, { cache: "no-store" });
+    const text = await res.text();
+
+    const accounts = text
+      .split(/\r?\n/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    // Keep the placeholder; replace any existing options after it
+    accountSelect.innerHTML = `<option value="">Select an account…</option>`;
+
+    accounts.forEach((name) => {
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      accountSelect.appendChild(opt);
+    });
+
+    updateSubmitEnabled();
+  } catch (e) {
+    console.warn("Failed to load account list:", e);
+    updateSubmitEnabled();
+  }
 }
 
-// Create the drop‑zones immediately; they don't depend on seasons
+/* ---------- init ---------- */
+async function init() {
+  // Load accounts from text file
+  await loadAccounts();
+
+  // Ensure initial submit state is correct
+  updateSubmitEnabled();
+}
+
+// Create the drop-zones immediately; they don't depend on seasons
 DROPZONE_IDENTIFIERS.forEach((dz) => createDropzone(dz));
 
-// Kick off the season-aware UI once the DOM is ready
+// Kick off the UI once the DOM is ready
 window.addEventListener("DOMContentLoaded", init);
